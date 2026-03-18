@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Alkhulasat.App.Resources.Styles.CustomStyles">
+    <!-- 1. ستايل الآيات القرآنية (وضوح عالي ولون مميز) -->
+    <Style
+        x:Key="QuranText"
+        TargetType="Label">
+        <Setter
+            Property="FontFamily"
+            Value="QuranFont" />
+        <Setter
+            Property="FontSize"
+            Value="{DynamicResource QuranFontSize}" />
+        <Setter
+            Property="TextColor"
+            Value="#FFD700" />
+        <!-- ذهبي هادئ -->
+        <Setter
+            Property="LineHeight"
+            Value="1.6" />
+        <Setter
+            Property="HorizontalTextAlignment"
+            Value="Center" />
+    </Style>
+    <!-- 2. ستايل الأذكار (مريح جداً للقراءة) -->
+    <Style
+        x:Key="AzkarText"
+        TargetType="Label">
+        <Setter
+            Property="FontFamily"
+            Value="AzkarFont" />
+        <Setter
+            Property="FontSize"
+            Value="{DynamicResource UserFontSize}" />
+        <Setter
+            Property="TextColor"
+            Value="#E1E1E1" />
+        <!-- أبيض مطفي -->
+        <Setter
+            Property="LineHeight"
+            Value="1.6" />
+        <Setter
+            Property="HorizontalTextAlignment"
+            Value="Center" />
+    </Style>
+    <!-- 3. ستايل التفسير والشرح (لون هادئ) -->
+    <Style
+        x:Key="HeaderText"
+        TargetType="Label">
+        <Setter
+            Property="FontFamily"
+            Value="HeaderFont" />
+        <Setter
+            Property="FontSize"
+            Value="{DynamicResource NoteFontSize}" />
+        <Setter
+            Property="TextColor"
+            Value="#A0A0A0" />
+        <!-- رمادي فاتح -->
+        <Setter
+            Property="LineHeight"
+            Value="1.6" />
+    </Style>
+    <!-- 5. ستايل العناوين الرئيسية للواجهة -->
+    <Style
+        x:Key="TitleLabel"
+        TargetType="Label">
+        <Setter
+            Property="FontFamily"
+            Value="TitelFont" />
+        <Setter
+            Property="FontSize"
+            Value="22" />
+        <Setter
+            Property="TextColor"
+            Value="#E0E0E0" />
+        <Setter
+            Property="HorizontalOptions"
+            Value="Center" />
+    </Style>
+</ResourceDictionary>

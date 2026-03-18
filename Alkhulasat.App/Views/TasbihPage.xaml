@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Alkhulasat.App.Views.TasbihPage"
+    Style="{StaticResource StylePages}"
+    Title="التسبيح والاستغفار">
+    <Grid
+        RowDefinitions="*, Auto">
+        <!-- نص الذكر الحالي (يمكن تغييره) -->
+        <VerticalStackLayout
+            Grid.Row="0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Spacing="40">
+            <Label
+                Text="أستغفر الله وأتوب إليه"
+                Style="{StaticResource AzkarText}"
+                FontSize="24"
+                Margin="5"
+                HorizontalTextAlignment="Center" />
+            <!-- العداد الدائري الكبير -->
+            <Border
+                Grid.Row="0"
+                HeightRequest="300"
+                WidthRequest="300"
+                StrokeShape="RoundRectangle 150"
+                BackgroundColor="#1E1E1E"
+                Stroke="#03DAC6"
+                StrokeThickness="4"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="OnCounterTapped" />
+                </Border.GestureRecognizers>
+                <Label
+                    x:Name="lblCount"
+                    Text="0"
+                    FontSize="80"
+                    FontAttributes="Bold"
+                    TextColor="#03DAC6"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+            </Border>
+        </VerticalStackLayout>
+        <!-- أزرار التحكم السفلى -->
+        <VerticalStackLayout
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            Spacing="20">
+            <!-- زر إجمالي التسبيح -->
+            <HorizontalStackLayout
+                Spacing="10"
+                VerticalOptions="Center">
+                <Label
+                    Text="الإجمالي"
+                    TextColor="#666"
+                    HorizontalOptions="Center" />
+                <Label
+                    x:Name="lblTotal"
+                    Text="0"
+                    TextColor="#E0E0E0"
+                    FontSize="18" />
+            </HorizontalStackLayout>
+            <!-- زر تصفير الأذكار -->
+            <Border
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="#2D2D2D"
+                Stroke="#444"
+                Padding="12,8"
+                Margin="5">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="OnResetClicked" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout
+                    Spacing="8">
+                    <Label
+                        Text="🔄"
+                        VerticalOptions="Center"
+                        FontSize="16" />
+                    <Label
+                        Text="تصفير الأذكار"
+                        TextColor="White"
+                        VerticalOptions="Center"
+                        FontSize="14"
+                        FontAttributes="Bold" />
+                </HorizontalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Alkhulasat.App.Views.AzkarPage"
+    xmlns:vm="clr-namespace:Alkhulasat.BusinessLogic.ViewModels;assembly=Alkhulasat.BusinessLogic"
+    xmlns:converters="clr-namespace:Alkhulasat.App.Converters"
+    xmlns:controls="clr-namespace:Alkhulasat.App.Controls"
+    xmlns:models="clr-namespace:Alkhulasat.Domain.Models;assembly=Alkhulasat.Domain"
+    Style="{StaticResource StylePages}"
+    Title="{Binding PageTitle}">
+    <ContentPage.Resources>
+        <converters:CompletionColorConverter
+            x:Key="ColorConverter" />
+        <converters:CategoryToVisibilityConverter
+            x:Key="CategoryConverter" />
+    </ContentPage.Resources>
+    <Grid
+        RowDefinitions="*, Auto">
+        <CollectionView
+            x:Name="AzkarCollection"
+            ItemsSource="{Binding AzkarList}"
+            SelectionMode="None"
+            Grid.Row="0"
+            Margin="10">
+            <!-- تم حذف ItemsSource من سطر الـ ItemTemplate أدناه -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="models:ZekrModel">
+                    <controls:ZekrView
+                        ZekrID="{Binding ZekrID}"
+                        DisplayContent="{Binding DisplayContent}"
+                        ZekrDescription="{Binding ZekrDescription }"
+                        ZekrTargetText="{Binding ZekrTargetText}"
+                        ZekrCategory="{Binding ZekrCategory}"
+                        ZekrCurrentCount="{Binding ZekrCurrentCount}"
+                        ZekrClickCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:AzkarViewModel}}, Path=IncrementCountCommand}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!-- مؤشر التحميل (يظهر فقط عندما يكون IsBusy = true) -->
+        <VerticalStackLayout
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Spacing="10">
+            <ActivityIndicator
+                IsRunning="{Binding IsBusy}"
+                Color="#BB86FC"
+                WidthRequest="50"
+                HeightRequest="50" />
+            <Label
+                Text="جاري تحميل الأذكار..."
+                TextColor="#777"
+                FontSize="12"
+                HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+        <!-- صف الأزرار (أعلى الصفحة) -->
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Spacing="10"
+            HorizontalOptions="Center"
+            Margin="10,15,10,5">
+            <!-- زر تصفير الأذكار -->
+            <Border
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="#2D2D2D"
+                Stroke="#444"
+                Padding="12,8">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding ResetCurrentCategoryCommand}" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout
+                    Spacing="8">
+                    <Label
+                        Text="🔄"
+                        VerticalOptions="Center"
+                        FontSize="16" />
+                    <Label
+                        Text="تصفير الأذكار"
+                        TextColor="White"
+                        VerticalOptions="Center"
+                        FontSize="14"
+                        FontAttributes="Bold" />
+                </HorizontalStackLayout>
+            </Border>
+            <!-- زر ما يعوذ به الأبناء -->
+            <Border
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="#1E3A8A"
+                Stroke="#3B82F6"
+                Padding="12,8"
+                IsVisible="{Binding CurrentCategory, Converter={StaticResource CategoryConverter}}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="OnChildrenProtectionClicked" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout
+                    Spacing="8">
+                    <Label
+                        Text="🛡️"
+                        VerticalOptions="Center"
+                        FontSize="16" />
+                    <VerticalStackLayout>
+                        <Label
+                            Text="تعويذ الأبناء"
+                            TextColor="White"
+                            FontSize="13"
+                            FontAttributes="Bold" />
+                        <Label
+                            Text="أدعية نبوية لحمايتهم"
+                            TextColor="#CBD5E1"
+                            FontSize="9" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Border>
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>
+

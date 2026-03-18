@@ -1,0 +1,55 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Alkhulasat.App"
+    xmlns:converters="clr-namespace:Alkhulasat.App.Converters"
+    x:Class="Alkhulasat.App.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary
+                    Source="Resources/Styles/Styles.xaml" />
+                <!-- ملفاتك الجديدة المنظمة -->
+                <ResourceDictionary
+                    Source="Resources/Styles/CustomStyles.xaml" />
+                <ResourceDictionary
+                    Source="Resources/Styles/ButtonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!-- تعريف الـ Converters بشكل مركزي -->
+            <converters:StringToBoolConverter
+                x:Key="StringToBoolConverter" />
+            <!-- ستايل الصفحة العام -->
+            <Style
+                x:Key="StylePages"
+                TargetType="Page">
+                <Setter
+                    Property="BackgroundColor"
+                    Value="#121212" />
+                <Setter
+                    Property="FlowDirection"
+                    Value="RightToLeft" />
+            </Style>
+            <!-- المورد الديناميكي الأساسي -->
+            <x:Double
+                x:Key="UserFontSize">22.0</x:Double>
+            <!-- ستايل عام يطبق على كل الليبلز في التطبيق -->
+            <Style
+                TargetType="Label">
+                <Setter
+                    Property="FontSize"
+                    Value="{DynamicResource UserFontSize}" />
+                <!-- يمكنك إضافة FontFamily موحد هنا أيضاً -->
+            </Style>
+            <!-- إذا كنت تستخدم Editor أو Entry للبحث أو الكتابة -->
+            <Style
+                TargetType="Editor">
+                <Setter
+                    Property="FontSize"
+                    Value="{DynamicResource UserFontSize}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

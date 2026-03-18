@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Alkhulasat.App.Views.DarkModeInfoPage"
+    Style="{StaticResource StylePages}"
+    Title="لماذا الوضع الداكن؟">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="15">
+            <!-- المقدمة -->
+            <Label
+                Text="عنايةً بصحتك وخشوعك"
+                Style="{StaticResource TitleLabel}"
+                TextColor="YellowGreen"
+                HorizontalOptions="Center"
+                Margin="0,10" />
+            <Label
+                Text="نعتني في تطبيقنا بتقديم تجربة إيمانية مريحة للعين والقلب؛ لذا اعتمدنا الوضع الداكن (Dark Mode) كخيار أساسي بناءً على دراسات علمية أثبتت فوائده الصحية، ومنها:
+"
+                Style="{StaticResource HeaderText}"
+                HorizontalTextAlignment="Center"
+                TextColor="#E1E1E1" />
+            <!-- بطاقة 1: إجهاد العين -->
+            <Border
+                Padding="15"
+                StrokeShape="RoundRectangle 15"
+                BackgroundColor="#1E1E1E">
+                <VerticalStackLayout
+                    Spacing="5">
+                    <Label
+                        Text="👁️ تقليل إجهاد العين"
+                        FontAttributes="Bold"
+                        TextColor="#2ECC71"
+                        FontSize="18" />
+                    <Label
+                        Text="يقلل 'الوهج' المنبعث من الشاشة في أوقات الفجر والليل، مما يحمي عضلات العين من الإرهاق أثناء القراءة."
+                        Style="{StaticResource HeaderText}"
+                        FontSize="16" />
+                </VerticalStackLayout>
+            </Border>
+            <!-- بطاقة 2: جودة النوم -->
+            <Border
+                Padding="15"
+                StrokeShape="RoundRectangle 15"
+                BackgroundColor="#1E1E1E">
+                <VerticalStackLayout
+                    Spacing="5">
+                    <Label
+                        Text="🌙 تحسين جودة النوم"
+                        FontAttributes="Bold"
+                        TextColor="#2ECC71"
+                        FontSize="18" />
+                    <Label
+                        Text="تقليل 'الضوء الأزرق' يساعد جسمك على الاستعداد للنوم بعد أذكار المساء او النوم دون أرق."
+                        Style="{StaticResource HeaderText}"
+                        FontSize="16" />
+                </VerticalStackLayout>
+            </Border>
+            <!-- بطاقة 3: التركيز -->
+            <Border
+                Padding="15"
+                StrokeShape="RoundRectangle 15"
+                BackgroundColor="#1E1E1E">
+                <VerticalStackLayout
+                    Spacing="5">
+                    <Label
+                        Text="🧘 الخشوع والتركيز"
+                        FontAttributes="Bold"
+                        TextColor="#2ECC71"
+                        FontSize="18" />
+                    <Label
+                        Text="الألوان الهادئة تبعد عنك تشتت الألوان الزاهية، ليكون تركيزك منصباً على معاني الذكر."
+                        Style="{StaticResource HeaderText}"
+                        FontSize="16" />
+                </VerticalStackLayout>
+            </Border>
+            <!-- بطاقة 4: أبحاث جوجل والبطارية -->
+            <Border
+                Padding="15"
+                StrokeShape="RoundRectangle 15"
+                BackgroundColor="#1E1E1E">
+                <VerticalStackLayout
+                    Spacing="5">
+                    <Label
+                        Text="🔋 كفاءة الطاقة والاستدامة"
+                        FontAttributes="Bold"
+                        TextColor="#2ECC71"
+                        FontSize="18" />
+                    <Label
+                        Text="أثبتت أبحاث جوجل أن الوضع الداكن يقلل استهلاك البطارية بنسبة تصل إلى 60% في شاشات OLED، مما يطيل عمر جهازك."
+                        Style="{StaticResource HeaderText}"
+                        FontSize="16" />
+                </VerticalStackLayout>
+            </Border>
+            <!-- بطاقة 5: أبحاث مايكروسوفت والتركيز -->
+            <Border
+                Padding="15"
+                StrokeShape="RoundRectangle 15"
+                BackgroundColor="#1E1E1E">
+                <VerticalStackLayout
+                    Spacing="5">
+                    <Label
+                        Text="🎯 التركيز والهدوء البصري"
+                        FontAttributes="Bold"
+                        TextColor="#2ECC71"
+                        FontSize="18" />
+                    <Label
+                        Text="تؤكد أبحاث مايكروسوفت أن التصميم الداكن يقلل من التشتت البصري ويساعد العقل على التركيز العميق في النص المقروء."
+                        Style="{StaticResource HeaderText}"
+                        FontSize="16" />
+                </VerticalStackLayout>
+            </Border>
+            <!-- بطاقة مضافة: وضوح التباين وتقليل التشتت -->
+            <Border
+                Padding="15"
+                StrokeShape="RoundRectangle 15"
+                BackgroundColor="#1E1E1E">
+                <VerticalStackLayout
+                    Spacing="5">
+                    <Label
+                        Text="🛡️ تقليل تشتت الضوء"
+                        FontAttributes="Bold"
+                        TextColor="#2ECC71"
+                        FontSize="18" />
+                    <Label
+                        Text="يشير خبراء العناية بالعين إلى أن الوضع الداكن يقلل من تشتت الضوء داخل العين، مما يساعد على وضوح الحروف وتقليل الإجهاد البصري."
+                        Style="{StaticResource HeaderText}"
+                        FontSize="16" />
+                </VerticalStackLayout>
+            </Border>
+            <!-- النصيحة -->
+            <Border
+                Padding="15"
+                StrokeShape="RoundRectangle 15"
+                BackgroundColor="#2D2D10"
+                Stroke="#FFFF00">
+                <VerticalStackLayout
+                    Spacing="5">
+                   
+                    <Label
+                        Text="💡نصيحة:"
+                        FontSize="18"
+                         
+                        VerticalOptions="Center" />
+                    <Label
+                        Text="عند القراءة في ضوء الشمس المباشر أو الإضاءة الشديدة، يفضل رفع سطوع الشاشة لأقصى درجة لضمان وضوح النص وتقليل تشتت البصر."
+                        TextColor="White"
+                        Style="{StaticResource HeaderText}"
+                        FontSize="15"
+                        VerticalOptions="Center"                      
+                        LineBreakMode="WordWrap" />
+                    
+                </VerticalStackLayout>  
+            </Border>
+            <!-- قسم الروابط العلمية -->
+            <Label
+                Text="المصادر والمراجع العلمية"
+                FontAttributes="Bold"
+                Margin="0,15,0,5"
+                TextColor="YellowGreen" />
+            <Button
+                Text="دراسة جامعة هارفارد (النوم)"
+                Clicked="OpenHarvardLink"
+                Style="{StaticResource SettingsButton}"
+                Margin="0,5" />
+            <Button
+                Text="الأكاديمية الأمريكية (صحة العين)"
+                Clicked="OpenEyeAcademyLink"
+                Style="{StaticResource SettingsButton}"
+                Margin="0,5" />
+            <!-- زر رابط جوجل في قسم الروابط -->
+            <Button
+                Text="أبحاث جوجل وتجربة المستخدم (UX)"
+                Clicked="OpenGoogleLink"
+                Style="{StaticResource SettingsButton}"
+                Margin="0,5" />
+            <!-- زر رابط مايكروسوفت في قسم الروابط -->
+            <Button
+                Text="فلسفة مايكروسوفت في التصميم الداكن"
+                Clicked="OpenMicrosoftLink"
+                Style="{StaticResource SettingsButton}"
+                Margin="0,5" />
+            <!-- زر رابط مركز العناية بالعين WebECA -->
+            <Button
+                Text="تقرير مركز WebECA لسلامة العيون"
+                Clicked="OpenWebECALink"
+                Style="{StaticResource SettingsButton}"
+                Margin="0,5" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Alkhulasat.App.Views.AboutPage"
+    Style="{StaticResource StylePages}"
+    Title="حول التطبيق"
+    FlowDirection="RightToLeft">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="20">
+            <!-- أيقونة التطبيق والاسم -->
+            <Border
+                StrokeShape="RoundRectangle 100"
+                Stroke="#FFCC00"
+                HorizontalOptions="Center"
+                StrokeThickness="3"
+                Padding="0">
+                <Image
+                    Source="alkhulasa.png"
+                    WidthRequest="100"
+                    HeightRequest="100" />
+            </Border>
+            <Label
+                Text="الخلاصة الحسناء"
+                Style="{StaticResource TitleLabel}"
+                FontSize="28"
+                TextColor="#BB86FC" />
+            <!-- بطاقة الوصف الرئيسي -->
+            <Border
+                BackgroundColor="#1E1E1E"
+                StrokeShape="RoundRectangle 15"
+                Padding="15"
+                Stroke="#333">
+                <Label
+                    Style="{StaticResource AzkarText}"
+                    FontSize="16"
+                    Text="هذا التطبيق صدقة جارية، يهدف لتيسير قراءة الأذكار الصحيحة والمحققة من متون الخلاصة الحسناء والباقيات الصالحات لفضيلة الشيخ صالح بن عبد الله بن حمد العصيمي (مرفق رابط PDF لشرح الكتب من تأليف الشيخ صالح ايضا) سائلين المولى القبول ووفق الله الشيخ الى مايحبه ويرضاه وجزاه الله خير وغفر له ولوالديه ولجميع المسلمين. (التطلبيق تحت التطوير وهذه نسخة تجريبية وهذه ليست المقدمة النهائية )." />
+            </Border>
+            <Border
+                BackgroundColor="#1E1E1E"
+                StrokeShape="RoundRectangle 15"
+                Padding="15"
+                Stroke="#333">
+                <Label
+                    Style="{StaticResource AzkarText}"
+                    FontSize="16"
+                    Text="ما يعوذ به الاطفال، أدعية نبوية لحماية طفلك من كل سوء ولكن لم استطع ان اجد رابط للشيخ العصيمي حفظه الله، ولكن الاحاديث ثابتة وصحيحة ولعلي اصل لرابط اضعه لكم قريبا ان شاء الله." />
+            </Border>
+            <Border
+                BackgroundColor="#1E1E1E"
+                StrokeShape="RoundRectangle 15"
+                Padding="15"
+                Stroke="#333">
+                <Label
+                    Style="{StaticResource AzkarText}"
+                    FontSize="16"
+                    Text="ما الجديد؟&#10;
+ما يعوذ به الاطفال، أدعية نبوية لحماية طفلك من كل سوء.&#10; 
+اذا كان الذاكر امراءة ستظهر الاذكار التي وردت بلفظ التانيس.&#10;
+يحتفظ بالاذكار وعدد مرات قرائتها حتى اليوم التالي، بحيث اذا قرائت جزئ وتركت جزئ ثم ارت استكمال الاذكر تجد الاذكار كما تركتها وتكمل منها ما شئت.&#10;
+يسمح لك باعادة تعيين او تصفير العدادات حتى اذا تم الضغط خطأ على الاذكار (يتم اعادة تعيين كل الاذكار داخل الفئة مثل اذكار الصباح او المساء).&#10;
+يمكنك تفعيل خيار ابقاء الشاشة تعمل طول فترة تشغيل التطبيق.&#10;
+يمكنك تفعيل الاهتزاز مع الاذكار (تحت التجربة).&#10;
+التحكم في الخط: تكبير او تصغير الخط لرفع الضغط عن عينيك لزيادة التركيز والخشوع." />
+            </Border>
+            <!-- بطاقة المعلومات والروابط -->
+            <Border
+                BackgroundColor="#1E1E1E"
+                StrokeShape="RoundRectangle 15"
+                Padding="15"
+                Stroke="#333">
+                <VerticalStackLayout
+                    Spacing="15">
+                    <Label
+                        Text="ارجو منكم الدعاء لي ولوالدي ولعماتي ولكل من ساعدني بالرحمة.&#10;اللهم اغفر لكل من صدر مني قول او فعل اذاه."
+                        TextColor="#03DAC6"
+                        HorizontalOptions="Center"
+                        FontSize="14" />
+                    <Label
+                        Text="إعداد وتطوير الفقير الى الله"
+                        TextColor="#03DAC6"
+                        HorizontalOptions="Center"
+                        FontSize="14" />
+                    <Label
+                        Text="أحمد السيد عبد الوهاب"
+                        Style="{StaticResource AzkarText}"
+                        FontAttributes="Bold" />
+                    <Border
+                        BackgroundColor="#222222"
+                        StrokeShape="RoundRectangle 15"
+                        HorizontalOptions="Center"
+                        Padding="15"
+                        Stroke="#666666">
+                        <Label
+                            Text="للتواصل والدعم"
+                            TextColor="#373"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start"
+                            FontSize="12"
+                            Margin="2" />
+                    </Border>
+                    <Label
+                        Text="01025566365"
+                        TextColor="#E0E0E0"
+                        HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Border>
+            <!-- بطاقة شرح المتون (الروابط) -->
+            <Border
+                BackgroundColor="#1E1E1E"
+                StrokeShape="RoundRectangle 15"
+                Padding="15"
+                Stroke="#333">
+                <VerticalStackLayout
+                    Spacing="10">
+                    <Label
+                        Text="شروحات المتون العلمية (PDF)"
+                        TextColor="#BB86FC"
+                        HorizontalOptions="Center"
+                        Margin="0,0,0,10" />
+                    <Button
+                        Text="شرح الخلاصة الحسناء"
+                        Style="{StaticResource SettingsButton}"
+                        BackgroundColor="#2C3E50"
+                        Clicked="OnOpenPdfClicked"
+                        CommandParameter="https://d1.islamhouse.com/data/ar/ih_books/single_02/ar-sharah-alkhalash-alhusna.pdf" />
+                    <Button
+                        Text="شرح الباقيات الصالحات"
+                        Style="{StaticResource SettingsButton}"
+                        BackgroundColor="#2C3E50"
+                        Clicked="OnOpenPdfClicked"
+                        CommandParameter="https://d1.islamhouse.com/data/ar/ih_books/single_02/ar-sharah-albaqiat-alsaalihat.pdf" />
+                </VerticalStackLayout>
+            </Border>
+            <!-- رقم الإصدار -->
+            <Label
+                x:Name="lblVersion"
+                Text="إصدار: 1.0.0"
+                HorizontalOptions="Center"
+                TextColor="#444"
+                FontSize="12"
+                Margin="0,10" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

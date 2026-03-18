@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Alkhulasat.App.Views.SplashPage"
+    Title="SplashPage"
+    Style="{StaticResource StylePages}"
+    NavigationPage.HasNavigationBar="False">
+    <VerticalStackLayout
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        Spacing="20">
+        <!-- الاسم والشفافية على الـ Border لضمان تحرك الصورة بداخله -->
+        <Border
+            x:Name="AppLogoContainer"
+            Opacity="0.1"
+            StrokeShape="RoundRectangle 100"
+            Stroke="#FFCC00"
+            StrokeThickness="3">
+            <Image
+                Source="alkhulasa.png"
+                WidthRequest="200"
+                HeightRequest="200" />
+        </Border>
+        <Label
+            x:Name="AppTitleLabel"
+            Text="الخلاصة الحسناء"
+            FontSize="30"
+            TextColor="#512BD4"
+            FontAttributes="Bold"
+            Opacity="0" />
+    </VerticalStackLayout>
+</ContentPage>

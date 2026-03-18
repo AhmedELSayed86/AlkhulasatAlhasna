@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Alkhulasat.App.Converters"
+    x:Class="Alkhulasat.App.Views.MainPage"
+    Style="{StaticResource StylePages}"
+    Title="الخلاصة الحسناء"
+    FlowDirection="RightToLeft">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringToBoolConverter
+                x:Key="StringToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="20"
+            VerticalOptions="Center">
+            <Border
+                StrokeShape="RoundRectangle 100"
+                Stroke="#FFCC00"
+                HorizontalOptions="Center"
+                StrokeThickness="3"
+                Padding="0">
+                <Image
+                    Source="alkhulasa.png"
+                    WidthRequest="200"
+                    HeightRequest="200" />
+            </Border>
+            <!-- عنوان التطبيق -->
+            <Label
+                Text="الخلاصة الحسناء"
+                TextColor="#BB86FC"
+                FontSize="32"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Margin="0,0,0,20" />
+            <!-- شبكة الأزرار (المربعات) -->
+            <Grid
+                ColumnDefinitions="*,*"
+                RowDefinitions="Auto,Auto,Auto"
+                ColumnSpacing="15"
+                RowSpacing="15">
+                <!-- أذكار الصباح -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnMorningAzkarClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="10">
+                        <Image
+                            Source="sun_64.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
+                        <Label
+                            Text="أذكار الصباح"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- أذكار المساء -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnEveningAzkarClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="10">
+                        <Image
+                            Source="moon_stars_64.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
+                        <Label
+                            Text="أذكار المساء"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- أذكار بعد الصلوات -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnPrayerAzkarClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="10">
+                        <Image
+                            Source="prayer_man_512x512.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
+                        <Label
+                            Text="أذكار بعد الصلوات"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- الاستغفار -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnTasbihClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="10">
+                        <Image
+                            Source="prayer_beads_48px.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
+                        <Label
+                            Text="الاستغفار"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+              
+                <!-- ما يُعوذ به الأبناء -->
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnChildrenProtectionClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="5">
+                        <Label
+                            Text="🛡️"
+                            TextColor="#E0E0E0"
+                            FontSize="58"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="ما يُعوذ به الأبناء"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="أدعية نبوية لحماية طفلك من كل سوء"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+            <!-- أزرار الخدمات (مستطيلة) -->
+            <VerticalStackLayout
+                Spacing="12">
+                <!-- الداكن -->
+                <Border
+                    Stroke="#34495E"
+                    BackgroundColor="#2C3E50"
+                    HeightRequest="70"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnDarkModeInfoClicked" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="15"
+                        Padding="20,0">
+                        <Image
+                            Source="question0_512.png"
+                            WidthRequest="30"
+                            HeightRequest="30" />
+                        <Label
+                            Text=" الداكن لماذا؟"
+                            TextColor="#E0E0E0"
+                            FontSize="18"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+                <!-- الإعدادات -->
+                <Border
+                    Stroke="#34495E"
+                    BackgroundColor="#2C3E50"
+                    HeightRequest="70"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnSettingsClicked" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="15"
+                        Padding="20,0">
+                        <Image
+                            Source="settings_100px.png"
+                            WidthRequest="30"
+                            HeightRequest="30" />
+                        <Label
+                            Text="الإعدادات"
+                            TextColor="#E0E0E0"
+                            FontSize="18"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+                <!-- حول التطبيق -->
+                <Border
+                    Stroke="#34495E"
+                    BackgroundColor="#2C3E50"
+                    HeightRequest="70"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnAboutClicked" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="15"
+                        Padding="20,0">
+                        <Image
+                            Source="scroll_64.png"
+                            WidthRequest="30"
+                            HeightRequest="30" />
+                        <Label
+                            Text="حول التطبيق"
+                            TextColor="#E0E0E0"
+                            FontSize="18"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+                <!-- رقم الإصدار -->
+                <Label
+                    x:Name="lblVersion"
+                    Text="إصدار: 1.0.0"
+                    HorizontalOptions="Center"
+                    TextColor="#444"
+                    FontSize="12"
+                    Margin="0,10" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

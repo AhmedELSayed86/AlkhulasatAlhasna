@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Alkhulasat.App.Controls.ZekrView"
+    FlowDirection="RightToLeft">
+    <ContentView.Resources>
+        <ControlTemplate
+            x:Key="ZekrViewControlTemplate">
+            <Border
+                x:Name="MainBorder"
+                Padding="15"
+                Margin="10,5,10,20"
+                BackgroundColor="#191919"
+                StrokeThickness="3"
+                StrokeShape="RoundRectangle 0,0,50,50">
+                <!-- التدرج الأخضر الهادئ الافتراضي -->
+                <Border.Stroke>
+                    <LinearGradientBrush
+                        EndPoint="0,1">
+                        <GradientStop
+                            Color="#1F6F20"
+                            Offset="0.1" />
+                        <GradientStop
+                            Color="#2ECC71"
+                            Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Stroke>
+                <Border.Triggers>
+                    <!-- مشغل الحالة المكتملة: بهتان كامل للذكر -->
+                    <DataTrigger
+                        TargetType="Border"
+                        Binding="{Binding IsCompleted}"
+                        Value="True">
+                        <Setter
+                            Property="Opacity"
+                            Value="0.6" />
+                        <!-- بهتان مريح للعين -->
+                        <Setter
+                            Property="Stroke"
+                            Value="#111111" />
+                        <!-- حدود رمادية هادئة -->
+                    </DataTrigger>
+                </Border.Triggers>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{TemplateBinding ZekrClickCommand}"
+                        CommandParameter="{Binding .}" />
+                </Border.GestureRecognizers>
+                <Grid
+                    RowDefinitions="Auto, 1, Auto, 1, Auto, 1, Auto"
+                    RowSpacing="12">
+                    <!-- علامة الصح تظهر في الزاوية عند الاكتمال -->
+                    <Grid
+                        Grid.Row="0"
+                        RowDefinitions="Auto, Auto">
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Text="{TemplateBinding ZekrID}"
+                            Style="{StaticResource AzkarText}"
+                            HorizontalOptions="Start"
+                            TextColor="#9ECC71" />
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Text="{TemplateBinding ZekrTargetText }"
+                            Style="{StaticResource AzkarText}"
+                            HorizontalOptions="Center"
+                            TextColor="#2ECC71"
+                            MaxLines="3" />
+                        <Label
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="✓ تم الذكر"
+                            TextColor="#2ECC71"
+                            FontSize="12"
+                            HorizontalOptions="End"
+                            IsVisible="{Binding IsCompleted}" />
+                    </Grid>
+                    <BoxView
+                        Grid.Row="1"
+                        BackgroundColor="#333333"
+                        HeightRequest="1" />
+                    <Label
+                        Grid.Row="2"
+                        Text="{Binding DisplayContent}"
+                        Style="{StaticResource AzkarText}"
+                        Padding="5,10" />
+                    <BoxView
+                        Grid.Row="3"
+                        BackgroundColor="#055550"
+                        HeightRequest="0.5"
+                        IsVisible="{TemplateBinding ZekrDescription, Converter={StaticResource StringToBoolConverter}}" />
+                    <!-- الملاحظات -->
+                    <Label
+                        Grid.Row="4"
+                        Text="{TemplateBinding ZekrDescription}"
+                        Style="{StaticResource HeaderText}"
+                        IsVisible="{TemplateBinding ZekrDescription, Converter={StaticResource StringToBoolConverter}}" />
+                    <BoxView
+                        Grid.Row="5"
+                        BackgroundColor="#2ECC71"
+                        HeightRequest="1" />
+                    <!-- العداد -->
+                    <Label
+                        Grid.Row="6"
+                        Text="{TemplateBinding ZekrCurrentCount}"
+                        Style="{StaticResource QuranText}"
+                        HorizontalTextAlignment="Center">
+                        <Label.Triggers>
+                            <!-- مشغل الحالة المكتملة: بهتان كامل للذكر -->
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding IsCompleted}"
+                                Value="True">
+                                <Setter
+                                    Property="Opacity"
+                                    Value="0.6" />
+                                <!-- بهتان مريح للعين -->
+                                <Setter
+                                    Property="Style"
+                                    Value="{StaticResource HeaderText}" />
+                                <!-- حدود رمادية هادئة -->
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </ContentView.Resources>
+</ContentView>

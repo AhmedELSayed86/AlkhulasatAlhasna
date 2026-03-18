@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Alkhulasat.App.Resources.Styles.ButtonStyles">
+  
+        <!-- الستايل الافتراضي لجميع الأزرار -->
+        <Style
+            TargetType="Button">
+            <Setter
+                Property="FontFamily"
+                Value="UIFont" />
+            <Setter
+                Property="FontSize"
+                Value="18" />
+            <Setter
+                Property="CornerRadius"
+                Value="12" />
+            <Setter
+                Property="BackgroundColor"
+                Value="#2ECC71" />
+            <Setter
+                Property="TextColor"
+                Value="#E0E0E0" />
+        </Style>
+        <!-- ستايل المربعات (القائمة الرئيسية) -->
+        <Style
+            x:Key="MainMenuButton"
+            TargetType="Button">
+            <Setter
+                Property="FontFamily"
+                Value="UIFont" />
+            <Setter
+                Property="FontSize"
+                Value="20" />
+            <Setter
+                Property="CornerRadius"
+                Value="15" />
+            <Setter
+                Property="BackgroundColor"
+                Value="#1E1E1E" />
+            <Setter
+                Property="TextColor"
+                Value="#E0E0E0" />
+            <Setter
+                Property="BorderColor"
+                Value="#2ECC71" />
+            <Setter
+                Property="BorderWidth"
+                Value="1" />
+        </Style>
+        <!-- ستايل زر الإعدادات -->
+        <Style
+            x:Key="SettingsButton"
+            TargetType="Button">
+            <Setter
+                Property="FontFamily"
+                Value="UIFont" />
+            <Setter
+                Property="FontSize"
+                Value="18" />
+            <Setter
+                Property="CornerRadius"
+                Value="15" />
+            <Setter
+                Property="BackgroundColor"
+                Value="#2C3E50" />
+            <Setter
+                Property="TextColor"
+                Value="#E0E0E0" />
+        </Style>
+    </ResourceDictionary>
