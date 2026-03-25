@@ -1,5 +1,4 @@
 ﻿using Alkhulasat.BusinessLogic.Messages;
-using Alkhulasat.DataAccess.Repositories;
 using Alkhulasat.Domain.Interfaces;
 using Alkhulasat.Domain.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -14,34 +13,51 @@ namespace Alkhulasat.BusinessLogic.ViewModels
     {
         private readonly IZekrRepository _repository;
         private readonly ISettingsService _settings;
-        private readonly IHapticService? _hapticService; // اختياري
+        private readonly IHapticService? _hapticService;
 
         [ObservableProperty]
-        private ObservableCollection<ZekrModel> azkarList = new();
+        private ObservableCollection<ZekrModel> azkarList = [];
 
         [ObservableProperty]
         private string pageTitle;
 
         [ObservableProperty]
-        bool isBusy; // تولد تلقائياً IsBusy
-
-        [ObservableProperty]
         string currentCategory; // لتخزين الفئة الحالية (Morning, Evening, etc.)
 
-        public AzkarViewModel(IZekrRepository repository, string category, string title, ISettingsService settings, IHapticService? hapticService = null)
+        [ObservableProperty]
+        bool isBusy; // تولد تلقائياً IsBusy
+
+        //public AzkarViewModel(IZekrRepository repository, string category, string title, ISettingsService settings, IHapticService? hapticService = null)
+        //{
+        //    _repository = repository;
+        //    _settings = settings;
+        //    _hapticService = hapticService;
+        //    PageTitle = title;
+        //    CurrentCategory = category;
+
+        //    // الاستماع لتغيير الجنس وإعادة تحميل البيانات من قاعدة البيانات
+        //    WeakReferenceMessenger.Default.Register<SettingsChangedMessage>(this, async (r, m) =>
+        //    {
+        //        if(m.Value == "Gender")
+        //        {
+        //            await LoadAzkarAsync(CurrentCategory); // إعادة التحميل
+        //        }
+        //    });
+        //}
+
+        // المنشئ الآن نظيف تماماً ويقبل الخدمات فقط
+        public AzkarViewModel(IZekrRepository repository, ISettingsService settings, IHapticService? hapticService = null)
         {
             _repository = repository;
             _settings = settings;
             _hapticService = hapticService;
-            PageTitle = title;
-            CurrentCategory = category;
 
-            // الاستماع لتغيير الجنس وإعادة تحميل البيانات من قاعدة البيانات
+            // الاشتراك في الرسائل كما هو
             WeakReferenceMessenger.Default.Register<SettingsChangedMessage>(this, async (r, m) =>
             {
-                if(m.Value == "Gender")
+                if(m.Value == "Gender" && !string.IsNullOrEmpty(CurrentCategory))
                 {
-                    await LoadAzkarAsync(CurrentCategory); // إعادة التحميل
+                    await LoadAzkarAsync(CurrentCategory);
                 }
             });
         }

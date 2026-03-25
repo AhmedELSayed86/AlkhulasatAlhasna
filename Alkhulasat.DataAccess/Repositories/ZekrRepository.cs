@@ -44,7 +44,7 @@ namespace Alkhulasat.DataAccess.Repositories
             var db = _context.Database;
 
             // جلب كل الأذكار المخزنة حالياً في الجهاز
-            var existingAzkar = await db.Table<ZekrModel>().ToListAsync();
+            var existingAzkar = await db!.Table<ZekrModel>().ToListAsync();
 
             await db.RunInTransactionAsync(conn =>
             {

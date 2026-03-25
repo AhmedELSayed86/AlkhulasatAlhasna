@@ -1,66 +1,95 @@
 using Alkhulasat.BusinessLogic.Messages;
 using Alkhulasat.BusinessLogic.ViewModels;
-using Alkhulasat.DataAccess.Repositories;
-using Alkhulasat.Domain.Interfaces;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace Alkhulasat.App.Views;
 
+[QueryProperty(nameof(Category), "category")]
+[QueryProperty(nameof(Title), "title")]
 public partial class AzkarPage : ContentPage
 {
-    string _Category;
-    public AzkarPage(string category, string title)
+    private readonly AzkarViewModel _viewModel;
+
+    // عندما تصل القيمة من الرابط، نمررها فوراً للـ ViewModel
+    public string Category
+    {
+        set => _viewModel.CurrentCategory = value;
+    }
+
+    public string Title
+    {
+        set => _viewModel.PageTitle = value;
+    }
+
+    // .NET 10 سيقوم بحقن الـ ViewModel تلقائياً هنا
+    public AzkarPage(AzkarViewModel viewModel)
     {
         InitializeComponent();
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
+    }
 
-        // الحصول على مزود الخدمات من التطبيق الحالي
-        var services = Application.Current.Handler.MauiContext.Services;
+    //public AzkarPage(string category, string title)
+    //{
+    //    InitializeComponent();
 
-        // جلب الخدمات المسجلة
-        var repository = services.GetService<IZekrRepository>();
-        var settings = services.GetService<ISettingsService>();
-        var haptic = services.GetService<IHapticService>(); // نحصل على الخدمة
+    //    // الحصول على مزود الخدمات من التطبيق الحالي
+    //    Application? current = Application.Current;
+    //    var services = current?.Handler.MauiContext?.Services;
 
-        // التأكد من وجود الخدمات (اختياري)
-        if(repository == null)
-            throw new InvalidOperationException("ZekrRepository is لم يسجل in DI container.");
-        if(settings == null)
-            throw new InvalidOperationException("ISettingsService is لم يسجل in DI container.");
+    //    // جلب الخدمات المسجلة
+    //    var repository = services?.GetService<IZekrRepository>();
+    //    var settings = services?.GetService<ISettingsService>();
+    //    var haptic = services?.GetService<IHapticService>(); // نحصل على الخدمة
 
-        // تمرير التبعيات كاملة
-        BindingContext = new AzkarViewModel(repository, category, title, settings, haptic);
-        _Category = category;
-       
-        var vm = new AzkarViewModel(repository, category, title, settings, haptic);
-        BindingContext = vm;
+    //    // التأكد من وجود الخدمات (اختياري)
+    //    if(repository == null)
+    //        throw new InvalidOperationException("ZekrRepository is لم يسجل in DI container.");
+    //    if(settings == null)
+    //        throw new InvalidOperationException("ISettingsService is لم يسجل in DI container.");
 
-        // استقبال رسالة التمرير
+    //    // تمرير التبعيات كاملة
+    //    var vm = new AzkarViewModel(repository, category, title, settings, haptic);
+    //    BindingContext = vm;
+    //    Category = category;
+    //}
+
+    private async void OnChildrenProtectionClicked(object? sender, TappedEventArgs e)
+    {
+        // استخدام ../ يغلق صفحة الأذكار الحالية ويفتح الجديدة بدلاً منها، مما يحافظ على نظافة مكدس التنقل
+        await Shell.Current.GoToAsync($"/{nameof(AzkarPage)}?category=Children&title={Uri.EscapeDataString("ما يُعوذ به الأبناء")}");
+        //await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Children&title={Uri.EscapeDataString("ما يُعوذ به الأبناء")}");
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // الآن البيانات جاهزة داخل الـ VM، نبدأ التحميل
+        if(!string.IsNullOrEmpty(_viewModel.CurrentCategory))
+        {
+            if(_viewModel.AzkarList == null || _viewModel.AzkarList.Count == 0)
+            {
+                await _viewModel.LoadAzkarCommand.ExecuteAsync(_viewModel.CurrentCategory);
+            }
+        }
+
+        // تسجيل رسالة التمرير (Scroll)
         WeakReferenceMessenger.Default.Register<ScrollToZekrMessage>(this, (r, m) =>
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                // التمرير للذكر التالي وجعله في أعلى الشاشة (Start)
-                AzkarCollection.ScrollTo(m.Value, animate: true, position: ScrollToPosition.Start);
+                if(_viewModel.AzkarList!.Contains(m.Value))
+                {
+                    AzkarCollection.ScrollTo(m.Value, position: ScrollToPosition.Start);
+                }
             });
         });
     }
 
-    // الدالة الجديدة لفتح صفحة تعويذ الأبناء 
-    private async void OnChildrenProtectionClicked(object sender, TappedEventArgs e)
+    protected override void OnDisappearing()
     {
-        if(_Category != "Children")
-        {
-            // نمرر النوع "Children" أو الاسم الذي تفضله
-            await Navigation.PushAsync(new AzkarPage("Children", "ما يُعوذ به الأبناء"));
-        }
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        if(BindingContext is AzkarViewModel vm && (vm.AzkarList == null || vm.AzkarList.Count == 0))
-        {
-            _ = Task.Run(async () => await vm.LoadAzkarCommand.ExecuteAsync(vm.CurrentCategory));
-        }
+        base.OnDisappearing();
+        WeakReferenceMessenger.Default.Unregister<ScrollToZekrMessage>(this);
     }
 }

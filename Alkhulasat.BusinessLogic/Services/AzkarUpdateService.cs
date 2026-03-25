@@ -2,6 +2,7 @@
 using Alkhulasat.Domain.Models;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Runtime.Serialization.Json;
 
 namespace Alkhulasat.BusinessLogic.Services
 {

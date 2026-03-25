@@ -1,4 +1,5 @@
-﻿using Alkhulasat.BusinessLogic.Messages;
+﻿using Alkhulasat.App.Views;
+using Alkhulasat.BusinessLogic.Messages;
 using Alkhulasat.BusinessLogic.Services;
 using Alkhulasat.Domain.Interfaces;
 using CommunityToolkit.Mvvm.Messaging;
@@ -42,27 +43,43 @@ namespace Alkhulasat.App
                         // الـ ViewModels المشتركة ستستجيب تلقائياً
                     }
                 });
-            }); 
+            });
+            // لا تنشئ MainPage هنا يدوياً بـ new MainPage()
+            // بل اترك الـ Shell هو من يقوم بذلك
+            MainPage = new AppShell();
         }
 
         public void UpdateAllFontSizes(double baseSize)
         {
             // الوصول لموارد التطبيق وتحديث المفاتيح المختلفة
-            Resources["UserFontSize"] = baseSize;         // الخط الأساسي
-            Resources["QuranFontSize"] = baseSize + 6;    // خط القرآن
-            Resources["NoteFontSize"] = baseSize - 4;     // خط الحواشي/التفسير
+            this.Resources["UserFontSize"] = baseSize;         // الخط الأساسي
+            this.Resources["QuranFontSize"] = baseSize + 6;    // خط القرآن
+            this.Resources["NoteFontSize"] = baseSize - 4;     // خط الحواشي/التفسير
         }
-         
+
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            // تنفيذ الإعدادات هنا يضمن أن الـ Window متاح ولا يحدث خطأ JavaProxy
-            MainThread.BeginInvokeOnMainThread(() =>
+            // استدعاء البناء الافتراضي للنافذة
+            Window window = base.CreateWindow(activationState);
+
+            // تطبيق إعدادات الشاشة بأمان *بعد* إنشاء النافذة لتجنب JavaProxyThrowable
+            window.Created += (s, e) =>
             {
                 Microsoft.Maui.Devices.DeviceDisplay.Current.KeepScreenOn = _settingsService.IsKeepScreenOn;
-                UpdateAllFontSizes(_settingsService.FontSize);
-            });
+            };
 
-            return new Window(new Alkhulasat.App.Views.SplashPage());
+            return window;
         }
+        //protected override Window CreateWindow(IActivationState? activationState)
+        //{
+        //    // تنفيذ الإعدادات هنا يضمن أن الـ Window متاح ولا يحدث خطأ JavaProxy
+        //    MainThread.BeginInvokeOnMainThread(() =>
+        //    {
+        //        Microsoft.Maui.Devices.DeviceDisplay.Current.KeepScreenOn = _settingsService.IsKeepScreenOn;
+        //        UpdateAllFontSizes(_settingsService.FontSize);
+        //    });
+
+        //     return new Window(new Alkhulasat.App.Views.SplashPage());
+        //}
     }
 }

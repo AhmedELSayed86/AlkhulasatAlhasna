@@ -9,7 +9,7 @@ public partial class AboutPage : ContentPage
         lblVersion.Text = $"إصدار التطبيق: {AppInfo.Current.VersionString}";
     }
 
-    private async void OnOpenPdfClicked(object sender, EventArgs e)
+    private async void OnOpenPdfClicked(object? sender, EventArgs e)
     {
         var button = sender as Button;
         var url = button?.CommandParameter as string;

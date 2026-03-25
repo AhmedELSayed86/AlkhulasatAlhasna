@@ -14,7 +14,7 @@ namespace Alkhulasat.App.Views
             lblTotal.Text = totalCount.ToString();
         }
 
-        private void OnCounterTapped(object sender, EventArgs e)
+        private void OnCounterTapped(object? sender, EventArgs e)
         {
             count++;
             totalCount++;
@@ -32,7 +32,7 @@ namespace Alkhulasat.App.Views
             catch { /* الجهاز لا يدعم */ }
         }
 
-        private void OnResetClicked(object sender, TappedEventArgs e)
+        private void OnResetClicked(object? sender, TappedEventArgs e)
         {
             count = 0;
             lblCount.Text = "0";

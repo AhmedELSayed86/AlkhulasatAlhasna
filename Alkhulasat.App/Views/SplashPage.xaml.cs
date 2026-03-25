@@ -27,14 +27,14 @@ public partial class SplashPage : ContentPage
     //    // Fallback: open a new window with the shell (avoids deprecated MainPage setter)
     //    app.OpenWindow(new Window(new AppShell()));
     //}
-    private void NavigateToMain()
-    {
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            // هذه الطريقة هي الأكثر أماناً في أندرويد لتغيير الصفحة الرئيسية
-            Application.Current?.MainPage = new AppShell();
-        });
-    }
+    //private void NavigateToMain()
+    //{
+    //    MainThread.BeginInvokeOnMainThread(() =>
+    //    {
+    //        // هذه الطريقة هي الأكثر أماناً في أندرويد لتغيير الصفحة الرئيسية
+    //        Application.Current?.MainPage = new AppShell();
+    //    });
+    //}
     protected override async void OnAppearing()
     {
         base.OnAppearing();
@@ -56,7 +56,8 @@ public partial class SplashPage : ContentPage
             if(Application.Current != null)
             {
                 // استبدال صفحة السلاش بالـ Shell الخاص بك
-                Application.Current.MainPage = new Alkhulasat.App.AppShell();
+                //Application.Current.MainPage = new Alkhulasat.App.AppShell();
+                Application.Current.Windows[0].Page = new AppShell();
             }
         });
     }

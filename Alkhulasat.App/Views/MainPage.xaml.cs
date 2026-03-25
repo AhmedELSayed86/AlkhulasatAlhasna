@@ -5,74 +5,66 @@ namespace Alkhulasat.App.Views
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
-        public MainPage()
+        private readonly AzkarUpdateService _updateService;
+        public MainPage(AzkarUpdateService updateService)
         {
             InitializeComponent();
-
+            _updateService = updateService;
             lblVersion.Text = $"إصدار التطبيق: {AppInfo.Current.VersionString}";
         }
 
-        private async void OnMorningAzkarClicked(object sender, EventArgs e)
+        private async void OnMorningAzkarClicked(object? sender, EventArgs e)
         {
-            // نفتح صفحة الأذكار ونمرر لها النوع "Morning"
-            await Navigation.PushAsync(new AzkarPage("Morning", "أذكار الصباح"));
+            // التنقل المباشر هو الأصح مع المسارات المسجلة برمجياً
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Morning&title={Uri.EscapeDataString("أذكار الصباح")}");
         }
 
-        private async void OnEveningAzkarClicked(object sender, EventArgs e)
+        private async void OnEveningAzkarClicked(object? sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AzkarPage("Evening", "أذكار المساء"));
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Evening&title={Uri.EscapeDataString("أذكار المساء")}");
         }
 
-        private async void OnPrayerAzkarClicked(object sender, EventArgs e)
+        private async void OnPrayerAzkarClicked(object? sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AzkarPage("Prayer", "أذكار الصلاة"));
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Prayer&title={Uri.EscapeDataString("أذكار الصلاة")}");
         }
 
-        private async void OnTasbihClicked(object sender, EventArgs e)
+        private async void OnChildrenProtectionClicked(object? sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Children&title={Uri.EscapeDataString("ما يُعوذ به الأبناء")}");
+        }
+
+        private async void OnTasbihClicked(object? sender, EventArgs e)
         {
             // صفحة التسبيح (العداد الحر)
             await Navigation.PushAsync(new TasbihPage());
         }
 
-        private async void OnAboutClicked(object sender, EventArgs e)
+        private async void OnAboutClicked(object? sender, EventArgs e)
         {
             await Navigation.PushAsync(new AboutPage());
         }
 
-        private async void OnSettingsClicked(object sender, EventArgs e)
+        private async void OnSettingsClicked(object? sender, EventArgs e)
         {
             await Navigation.PushAsync(new SettingsPage());
         }
 
-        private async void OnDarkModeInfoClicked(object sender, TappedEventArgs e)
+        private async void OnDarkModeInfoClicked(object? sender, TappedEventArgs e)
         {
             await Navigation.PushAsync(new DarkModeInfoPage());
         }
 
-        // الدالة الجديدة لفتح صفحة تعويذ الأبناء
-        private async void OnChildrenProtectionClicked(object sender, EventArgs e)
-        {
-            // نمرر النوع "Children" أو الاسم الذي تفضله
-            await Navigation.PushAsync(new AzkarPage("Children", "ما يُعوذ به الأبناء"));
-        }
-
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            // تأخير بسيط لضمان ظهور الصفحة أولاً
-            await Task.Delay(500);
-
-            // بدء المزامنة في الخلفية (لا ننتظر)
-            _ = Task.Run(async () =>
+            // تشغيل المزامنة بأمان دون الحاجة للبحث عن الخدمات يدوياً
+            Task.Run(async () =>
             {
                 try
                 {
-                    var updateService = Handler.MauiContext.Services.GetService<AzkarUpdateService>();
-                    if(updateService != null)
-                        await updateService.SyncAzkarAsync();
+                    await _updateService.SyncAzkarAsync();
                 }
                 catch(Exception ex)
                 {

@@ -1,6 +1,7 @@
 ﻿using Alkhulasat.App.Services;
 using Alkhulasat.App.Views;
 using Alkhulasat.BusinessLogic.Services;
+using Alkhulasat.BusinessLogic.ViewModels;
 using Alkhulasat.DataAccess.Context;
 using Alkhulasat.DataAccess.Repositories;
 using Alkhulasat.Domain.Interfaces;
@@ -34,25 +35,30 @@ namespace Alkhulasat.App
             // أضف هذه الأسطر لتسجيل الخدمات 
             // --- تسجيل الخدمات (Dependency Injection) ---
 
+            // 1. تسجيل الخدمات (Services)
+            builder.Services.AddSingleton<IZekrRepository, ZekrRepository>();
+            builder.Services.AddSingleton<ISettingsService, SettingsService>();
+            builder.Services.AddSingleton<IHapticService, HapticService>();
+            builder.Services.AddSingleton<AzkarUpdateService>();
+
+            // 2. تسجيل الـ ViewModels
+            builder.Services.AddTransient<AzkarViewModel>();
+
+            // 3. تسجيل الصفحات (Pages) - ضروري جداً لـ .NET 10 DI
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<AzkarPage>();
+            builder.Services.AddTransient<TasbihPage>(); // وأي صفحة أخرى تستخدم Injection
+              
             // 1. تسجيل HttpClient كخدمة مفردة (Singleton)
             builder.Services.AddSingleton<HttpClient>();
-
-            // 2. ربط الواجهات بتنفيذاتها (Infrastructure/UI Layer)
-            builder.Services.AddSingleton<ISettingsService, SettingsService>();
+             
             builder.Services.AddSingleton<IAssetService, MauiAssetService>();
-
-            // 3. ربط مستودع البيانات (Data Access Layer)
-            builder.Services.AddSingleton<IZekrRepository, ZekrRepository>();
-
-            // 4. تسجيل خدمة البزنس (Business/Services Layer)
-            builder.Services.AddTransient<AzkarUpdateService>();
-
-       
-            builder.Services.AddSingleton<IHapticService, HapticService>();
+             
             builder.Services.AddSingleton<AppDbContext>();
-            builder.Services.AddTransient<AzkarPage>();
+        
             builder.Services.AddTransient<SettingsPage>();
-
+             
+            SQLitePCL.Batteries_V2.Init();
             return builder.Build();
         }
     }

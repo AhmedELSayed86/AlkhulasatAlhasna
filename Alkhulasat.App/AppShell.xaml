@@ -7,7 +7,7 @@
     Title="Alkhulasat.App">
 
     <ShellContent
-        Title="Home"
+        Title="الرئيسية"
         ContentTemplate="{DataTemplate local:Views.MainPage}"
         Route="MainPage" />
 
