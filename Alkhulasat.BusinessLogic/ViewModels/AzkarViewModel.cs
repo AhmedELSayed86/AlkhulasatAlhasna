@@ -105,26 +105,29 @@ namespace Alkhulasat.BusinessLogic.ViewModels
         {
             if(zekr != null && zekr.ZekrCurrentCount < zekr.ZekrTargetCount)
             {
-                // 1. زيادة العداد
                 zekr.ZekrCurrentCount++;
-
-                // 3. حفظ التغيير في قاعدة البيانات SQLite
                 await _repository.UpdateZekr(zekr);
 
-                // --- الجزء المضاف للتحريك ---
                 if(zekr.ZekrCurrentCount >= zekr.ZekrTargetCount)
                 {
+                    // 1. تفعيل الحالة في الموديل (ليعمل الـ DataTrigger الخاص بك فوراً)
+                    ///zekr.IsCompleted = true;
+
                     var index = AzkarList.IndexOf(zekr);
                     if(index < AzkarList.Count - 1)
                     {
+                        // 2. انتظر قليلاً ليعالج المستخدم بصرياً أن علامة "✓" ظهرت 
+                        // وأن الشفافية تغيرت (بفضل كود الـ XAML الخاص بك)
+                        await Task.Delay(300);
+
                         var nextZekr = AzkarList[index + 1];
-                        // إرسال رسالة بالذكر التالي ليتم التمرير إليه
+
+                        // 3. إرسال رسالة التمرير
                         WeakReferenceMessenger.Default.Send(new ScrollToZekrMessage(nextZekr));
                     }
                 }
-                // -------------------------
 
-                // فقط إذا كان الاهتزاز مفعلاً والخدمة موجودة
+                // تشغيل الاهتزاز (تأكد من استخدام Click)
                 if(_settings.IsHapticEnabled && _hapticService != null)
                 {
                     _hapticService.PerformClick();

@@ -10,11 +10,11 @@ namespace Alkhulasat.App.Services
             try
             {
                 if(HapticFeedback.Default.IsSupported)
-                    HapticFeedback.Default.Perform(HapticFeedbackType.LongPress);
+                    HapticFeedback.Default.Perform(HapticFeedbackType.Click);
             }
-            catch
+            catch(Exception ex)
             {
-                // تجاهل إذا كان الجهاز لا يدعم الاهتزاز
+                Debug.WriteLine($"Haptic error: {ex.Message}");
             }
         }
     }

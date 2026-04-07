@@ -13,6 +13,8 @@ namespace Alkhulasat.Domain.Models
         public string ZekrFemale { get; set; } = string.Empty;
         public string ZekrDescription { get; set; } = string.Empty;
         public int ZekrTargetCount { get; set; }
+
+        [Ignore]
         public string ZekrTargetText { get; set; } = string.Empty;
 
         // الخاصية التي سنعرضها في الـ XAML(تتغير بالتأنيث)
@@ -32,7 +34,12 @@ namespace Alkhulasat.Domain.Models
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsCompleted))]
         [NotifyPropertyChangedFor(nameof(Progress))]
+        [NotifyPropertyChangedFor(nameof(ZekrCurrentText))] // <--- أضف هذا السطر المهم
         private int zekrCurrentCount;
+
+        // قم بتغيير هذه الخاصية لتكون مقروءة فقط وتقوم بتوليد النص تلقائياً
+        [Ignore]
+        public string ZekrCurrentText => $"{ZekrCurrentCount} \\ {ZekrTargetCount}";
 
         [Ignore]
         public bool IsCompleted => ZekrCurrentCount >= ZekrTargetCount;

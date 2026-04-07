@@ -40,12 +40,152 @@
             <!-- شبكة الأزرار (المربعات) -->
             <Grid
                 ColumnDefinitions="*,*"
-                RowDefinitions="Auto,Auto,Auto"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                 ColumnSpacing="15"
                 RowSpacing="15">
-                <!-- أذكار الصباح -->
+                <!-- دعاء الاستيقاظ -->
                 <Border
                     Grid.Row="0"
+                    Grid.Column="0"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnWakingClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="5">
+                        <Label
+                            Text="🛡️"
+                            TextColor="#E0E0E0"
+                            FontSize="58"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="أذكار الاستيقاظ"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="هدي النبي في الاستيقاظ"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- أذكار النوم -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnSleepClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="5">
+                        <Label
+                            Text="🛡️"
+                            TextColor="#E0E0E0"
+                            FontSize="58"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="أذكار النوم"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="هدي النبي في النوم"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- أذكار الخروج من المنزل -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnLeavingHouseClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="5">
+                        <Label
+                            Text="🛡️"
+                            TextColor="#E0E0E0"
+                            FontSize="58"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="أذكار الخروج من المنزل"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="هدي النبي في الخروج من المنزل"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- أذكار دخول المنزل -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnEnteringHouseClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="5">
+                        <Label
+                            Text="🛡️"
+                            TextColor="#E0E0E0"
+                            FontSize="58"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="أذكار دخول المنزل"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="هدي النبي في دخول المنزل"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- أذكار الصباح -->
+                <Border
+                    Grid.Row="2"
                     Grid.Column="0"
                     Stroke="#2ECC71"
                     StrokeThickness="1"
@@ -68,12 +208,16 @@
                             Text="أذكار الصباح"
                             TextColor="#E0E0E0"
                             FontSize="20"
+                            HorizontalTextAlignment="Center" />  <Label
+                            Text="تبدأ بطلوع الفجر"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
                             HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </Border>
                 <!-- أذكار المساء -->
                 <Border
-                    Grid.Row="0"
+                    Grid.Row="2"
                     Grid.Column="1"
                     Stroke="#2ECC71"
                     StrokeThickness="1"
@@ -96,12 +240,18 @@
                             Text="أذكار المساء"
                             TextColor="#E0E0E0"
                             FontSize="20"
+                            HorizontalTextAlignment="Center" />  
+                        <Label
+                            Text="تبدأ بغروب الشمس"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
                             HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </Border>
+               
                 <!-- أذكار بعد الصلوات -->
                 <Border
-                    Grid.Row="1"
+                    Grid.Row="3"
                     Grid.Column="0"
                     Stroke="#2ECC71"
                     StrokeThickness="1"
@@ -129,7 +279,7 @@
                 </Border>
                 <!-- الاستغفار -->
                 <Border
-                    Grid.Row="1"
+                    Grid.Row="3"
                     Grid.Column="1"
                     Stroke="#2ECC71"
                     StrokeThickness="1"
@@ -158,7 +308,7 @@
               
                 <!-- ما يُعوذ به الأبناء -->
                 <Border
-                    Grid.Row="2"
+                    Grid.Row="4"
                     Grid.Column="0"
                     Stroke="#2ECC71"
                     StrokeThickness="1"
@@ -186,6 +336,147 @@
                             HorizontalTextAlignment="Center" />
                         <Label
                             Text="أدعية نبوية لحماية طفلك من كل سوء"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- دعاء السفر -->
+                <Border
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnTravelClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="5">
+                        <Label
+                            Text="🛡️"
+                            TextColor="#E0E0E0"
+                            FontSize="58"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="دعاء السفر"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="هدي النبي في السفر"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+             
+                <!-- أذكار الكفاية الجزء الاول -->
+                <Border
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnSufficiencyPart1Clicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="5">
+                        <Label
+                            Text="🛡️"
+                            TextColor="#E0E0E0"
+                            FontSize="58"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="أذكار الكفاية ودفع الضرر"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="النَّوع الأوَّل: الأذكار المطلقَة"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- أذكار الكفاية الجزء الثاني -->
+                <Border
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnSufficiencyPart2Clicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="5">
+                        <Label
+                            Text="🛡️"
+                            TextColor="#E0E0E0"
+                            FontSize="58"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="أذكار الكفاية ودفع الضرر"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="النَّوع الثَّاني: الأذكار المقيَّدة"
+                            TextColor="#E0E0E0"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <!-- ادعية نبوية متنوعة -->
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Stroke="#2ECC71"
+                    StrokeThickness="1"
+                    BackgroundColor="#1E1E1E"
+                    HeightRequest="160"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnPropheticIstikharaClicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        Spacing="5">
+                        <Label
+                            Text="🛡️"
+                            TextColor="#E0E0E0"
+                            FontSize="58"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="دعاء الاستخارة"
+                            TextColor="#E0E0E0"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            Text="استخير الخالق وشاور المخلوقين"
                             TextColor="#E0E0E0"
                             FontSize="13"
                             HorizontalTextAlignment="Center" />

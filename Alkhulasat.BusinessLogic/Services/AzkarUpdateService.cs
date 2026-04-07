@@ -12,8 +12,9 @@ namespace Alkhulasat.BusinessLogic.Services
         private readonly ISettingsService _settings;
         private readonly IAssetService _assets;
         private readonly IZekrRepository _repository;
-                                         //https://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/version.txt
-        private const string VersionUrl = "https://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/version.txt";
+
+        private const string VersionAppUrl = "https://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/versionApp.txthttps://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/versionApp.txt";
+        private const string VersionDbUrl = "https://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/versionDb.txt";
         private const string JsonUrl = "https://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/azkar.json";
 
         public AzkarUpdateService(HttpClient httpClient, ISettingsService settings, IAssetService assets, IZekrRepository repository)
@@ -28,7 +29,7 @@ namespace Alkhulasat.BusinessLogic.Services
         {
             // تأكد من تهيئة قاعدة البيانات أولاً قبل أي عملية
             await _repository.InitializeRepositoryAsync().ConfigureAwait(false);
-            var localVersion = _settings.GetAzkarVersion() ?? "0.0";
+            var localVersion = _settings.GetAzkarVersionDb() ?? "0.0";
             //System.Diagnostics.Debug.WriteLine($"localVersion: {localVersion}");
 
             if(localVersion == "0.0")
@@ -41,7 +42,7 @@ namespace Alkhulasat.BusinessLogic.Services
             try
             {
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-                var cloudVersion = await _httpClient.GetStringAsync(VersionUrl, cts.Token).ConfigureAwait(false);
+                var cloudVersion = await _httpClient.GetStringAsync(VersionDbUrl, cts.Token).ConfigureAwait(false);
                 //System.Diagnostics.Debug.WriteLine($"localVersion: {localVersion} - cloudVersion: {cloudVersion}");
 
                 cloudVersion = cloudVersion.Trim();
@@ -54,7 +55,7 @@ namespace Alkhulasat.BusinessLogic.Services
                     if(newAzkar != null)
                     {
                         await _repository.SyncAzkarSmartlyAsync(newAzkar).ConfigureAwait(false);
-                        _settings.SetAzkarVersion(cloudVersion);
+                        _settings.SetAzkarVersionDb(cloudVersion);
                     }
                 }
             }
@@ -63,7 +64,28 @@ namespace Alkhulasat.BusinessLogic.Services
                 // هذا السطر سيخبرك بالخطأ الحقيقي (ملف مفقود، أو جيسون غير صحيح)
                 System.Diagnostics.Debug.WriteLine($"CRITICAL ERROR: {ex.Message}");
             }
+        }
 
+        public async Task SyncVersionAppAsync()
+        {
+            var localVersion = _settings.GetAzkarVersionApp() ?? "0.0";
+
+            try
+            {
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                var cloudVersion = await _httpClient.GetStringAsync(VersionAppUrl, cts.Token).ConfigureAwait(false);
+
+                cloudVersion = cloudVersion.Trim();
+                if(cloudVersion != localVersion)
+                {
+                    _settings.SetAzkarVersionApp(cloudVersion);
+                }
+            }
+            catch(Exception ex)
+            {
+                // هذا السطر سيخبرك بالخطأ الحقيقي (ملف مفقود، أو جيسون غير صحيح)
+                System.Diagnostics.Debug.WriteLine($"CRITICAL ERROR: {ex.Message}");
+            }
         }
 
         private async Task LoadInitialDataFromAssets()
@@ -72,7 +94,7 @@ namespace Alkhulasat.BusinessLogic.Services
             {
                 var json = await _assets.ReadRawFileAsync("azkar.json");
                 Debug.WriteLine($"JSON file length: {json.Length}");
-                var version = await _assets.ReadRawFileAsync("version.txt");
+                var version = await _assets.ReadRawFileAsync("versionDb.txt");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var initialAzkar = JsonSerializer.Deserialize<List<ZekrModel>>(json, options);
@@ -80,7 +102,7 @@ namespace Alkhulasat.BusinessLogic.Services
                 if(initialAzkar != null)
                 {
                     await _repository.SyncAzkarSmartlyAsync(initialAzkar);
-                    _settings.SetAzkarVersion(version.Trim());
+                    _settings.SetAzkarVersionDb(version.Trim());
                 }
             }
             catch(Exception ex)

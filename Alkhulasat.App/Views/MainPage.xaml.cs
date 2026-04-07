@@ -1,11 +1,13 @@
-﻿using Alkhulasat.BusinessLogic.Services;
-using Alkhulasat.BusinessLogic.ViewModels;
+﻿using Alkhulasat.App.Services;
+using Alkhulasat.BusinessLogic.Services;
 
 namespace Alkhulasat.App.Views
 {
     public partial class MainPage : ContentPage
     {
         private readonly AzkarUpdateService _updateService;
+        private string _azkarVersionApp = "0.0";
+
         public MainPage(AzkarUpdateService updateService)
         {
             InitializeComponent();
@@ -32,6 +34,46 @@ namespace Alkhulasat.App.Views
         private async void OnChildrenProtectionClicked(object? sender, EventArgs e)
         {
             await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Children&title={Uri.EscapeDataString("ما يُعوذ به الأبناء")}");
+        }
+
+        private async void OnPropheticIstikharaClicked(object sender, TappedEventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Istikhara&title={Uri.EscapeDataString("دعاء الاستخارة")}");
+        }
+
+        private async void OnTravelClicked(object sender, TappedEventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Travel&title={Uri.EscapeDataString("دعاء السفر")}");
+        }
+
+        private async void OnWakingClicked(object sender, TappedEventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Waking&title={Uri.EscapeDataString("دعاء الاستيقاظ")}");
+        }
+
+        private async void OnSleepClicked(object sender, TappedEventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=Sleep&title={Uri.EscapeDataString("دعاء النوم")}");
+        }
+
+        private async void OnSufficiencyPart1Clicked(object sender, TappedEventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=SufficiencyPart1&title={Uri.EscapeDataString("أذكار الكفاية 1 الأذكار المطلقَة")}");
+        }
+
+        private async void OnSufficiencyPart2Clicked(object sender, TappedEventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=SufficiencyPart2&title={Uri.EscapeDataString("أذكار الكفاية 2 الأذكار المقيَّدة")}");
+        }
+
+        private async void OnLeavingHouseClicked(object sender, TappedEventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=LeavingHouse&title={Uri.EscapeDataString("أذكار الخروج من المنزل")}");
+        }
+
+        private async void OnEnteringHouseClicked(object sender, TappedEventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AzkarPage)}?category=EnteringHouse&title={Uri.EscapeDataString("أذكار دخول المنزل")}");
         }
 
         private async void OnTasbihClicked(object? sender, EventArgs e)
@@ -62,13 +104,56 @@ namespace Alkhulasat.App.Views
             // تشغيل المزامنة بأمان دون الحاجة للبحث عن الخدمات يدوياً
             Task.Run(async () =>
             {
+                SettingsService settingsService = new SettingsService();
                 try
                 {
                     await _updateService.SyncAzkarAsync();
+
+                    // 1. التحقق أولاً: هل اختار المستخدم "ليس الآن" سابقاً لهذا الإصدار؟
+                    // سنستخدم Preferences لتخزين قرار المستخدم
+                    bool skipUpdate = Preferences.Default.Get("SkipUpdateCheck", false);
+                    if(skipUpdate) return;
+
+
+                    string version = settingsService.GetAzkarVersionApp();
+                    if(version != null)
+                    {
+                        await _updateService.SyncVersionAppAsync();
+
+                        if(version != settingsService.GetAzkarVersionApp())
+                        {
+                            await MainThread.InvokeOnMainThreadAsync(async () =>
+                            {
+                                bool update = await DisplayAlertAsync("تحديث جديد",
+                                   "يوجد إصدار جديد للأذكار، هل تريد الانتقال للمتجر للتحديث الآن؟",
+                                   "تحديث الآن",
+                                   "ليس الآن");
+
+                                if(update)
+                                {
+                                    // استبدل YOUR_PACKAGE_NAME بمعرف تطبيقك الفعلي
+                                    //string url = $"https://play.google.com/store/apps/details?id=com.Code_Development.mauiazkar&hl=ar{AppInfo.Current.PackageName}";
+                                    string url = "https://play.google.com/store/apps/details?id=com.Code_Development.mauiazkar&hl=ar";
+                                    await Launcher.Default.OpenAsync(url);
+                                }
+                                else
+                                {
+                                    // 2. إذا ضغط "ليس الآن"، نحفظ قراره لكي لا تظهر الرسالة مرة أخرى
+                                    Preferences.Default.Set("SkipUpdateCheck", true);
+                                    settingsService.SetAzkarVersionApp(version);
+                                }
+                            });
+                        }
+                    }
                 }
                 catch(Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine($"Sync error: {ex.Message}");
+                }
+                finally
+                {
+                    // تحديث النسخة المعروضة في صفحة "حول"
+                    _azkarVersionApp = settingsService.GetAzkarVersionApp();
                 }
             });
         }

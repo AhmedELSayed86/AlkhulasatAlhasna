@@ -16,10 +16,10 @@ public partial class AzkarPage : ContentPage
         set => _viewModel.CurrentCategory = value;
     }
 
-    public string Title
-    {
-        set => _viewModel.PageTitle = value;
-    }
+    //public string Title
+    //{
+    //    set => _viewModel.PageTitle = value;
+    //}
 
     // .NET 10 سيقوم بحقن الـ ViewModel تلقائياً هنا
     public AzkarPage(AzkarViewModel viewModel)
@@ -27,6 +27,7 @@ public partial class AzkarPage : ContentPage
         InitializeComponent();
         _viewModel = viewModel;
         BindingContext = _viewModel;
+        Title = _viewModel.PageTitle;
     }
 
     //public AzkarPage(string category, string title)
@@ -75,14 +76,21 @@ public partial class AzkarPage : ContentPage
         }
 
         // تسجيل رسالة التمرير (Scroll)
-        WeakReferenceMessenger.Default.Register<ScrollToZekrMessage>(this, (r, m) =>
+        WeakReferenceMessenger.Default.Register<ScrollToZekrMessage>(this, async (r, m) =>
         {
-            MainThread.BeginInvokeOnMainThread(() =>
+            await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                if(_viewModel.AzkarList!.Contains(m.Value))
-                {
-                    AzkarCollection.ScrollTo(m.Value, position: ScrollToPosition.Start);
-                }
+                // 1. (المرحلة الأولى) تمرير خفيف جداً لجعل العنصر الحالي في أعلى الشاشة تماماً
+                // هذا ينبه عين المستخدم أن هناك حركة ستبدأ
+                //AzkarCollection.ScrollTo(m.Value, position: ScrollToPosition.MakeVisible, animate: true);
+                // في استقبال الرسالة
+                AzkarCollection.ScrollTo(m.Value, animate: true, position: ScrollToPosition.Start);
+                // 2. انتظر جزءاً بسيطاً جداً من الثانية (تأخير بصري)
+                await Task.Delay(170);
+
+                // 3. (المرحلة الثانية) التمرير الفعلي للعنصر التالي ليكون في البداية
+                // الحركة الآن ستظهر كأنها "تكملة" للمرحلة الأولى، فتصبح انسيابية وملاحظة
+                AzkarCollection.ScrollTo(m.Value, position: ScrollToPosition.Start, animate: true);
             });
         });
     }

@@ -33,7 +33,7 @@
                         ZekrDescription="{Binding ZekrDescription }"
                         ZekrTargetText="{Binding ZekrTargetText}"
                         ZekrCategory="{Binding ZekrCategory}"
-                        ZekrCurrentCount="{Binding ZekrCurrentCount}"
+                        ZekrCurrentText="{Binding ZekrCurrentText}"
                         ZekrClickCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:AzkarViewModel}}, Path=IncrementCountCommand}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>

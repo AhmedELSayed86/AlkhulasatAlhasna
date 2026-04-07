@@ -12,7 +12,11 @@
         // إضافة دوال التاريخ هنا
         string GetLastOpenDate(string category);
         void SetLastOpenDate(string category, string date);
-        string GetAzkarVersion();
-        void SetAzkarVersion(string version);
+        string GetAzkarVersionApp();
+        string GetAzkarVersionDb();
+        void SetAzkarVersionApp(string version);
+        void SetAzkarVersionDb(string version);
+        string GetSkipUpdateCheck();
+        void SetSkipUpdateCheck(string Check);
     }
 }

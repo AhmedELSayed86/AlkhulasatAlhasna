@@ -32,14 +32,15 @@
                         TargetType="Border"
                         Binding="{Binding IsCompleted}"
                         Value="True">
+                        <!--<Setter
+                            Property="StrokeDashArray"
+                            Value="2,2" />-->
                         <Setter
                             Property="Opacity"
                             Value="0.6" />
-                        <!-- بهتان مريح للعين -->
                         <Setter
                             Property="Stroke"
-                            Value="#111111" />
-                        <!-- حدود رمادية هادئة -->
+                            Value="#444444" />
                     </DataTrigger>
                 </Border.Triggers>
                 <Border.GestureRecognizers>
@@ -105,7 +106,7 @@
                     <!-- العداد -->
                     <Label
                         Grid.Row="6"
-                        Text="{TemplateBinding ZekrCurrentCount}"
+                        Text="{TemplateBinding ZekrCurrentText}"
                         Style="{StaticResource QuranText}"
                         HorizontalTextAlignment="Center">
                         <Label.Triggers>

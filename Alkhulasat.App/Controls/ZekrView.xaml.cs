@@ -4,7 +4,7 @@ using Alkhulasat.Domain.Interfaces;
 namespace Alkhulasat.App.Controls;
 
 public partial class ZekrView : ContentView
-{  
+{
     public static readonly BindableProperty ZekrClickCommandProperty =
         BindableProperty.Create(nameof(ZekrClickCommand), typeof(System.Windows.Input.ICommand), typeof(ZekrView));
 
@@ -28,6 +28,10 @@ public partial class ZekrView : ContentView
 
     public static readonly BindableProperty ZekrCategoryProperty =
         BindableProperty.Create(nameof(ZekrCategory), typeof(string), typeof(ZekrView), string.Empty);
+
+    public static readonly BindableProperty ZekrCurrentTextProperty =
+    BindableProperty.Create(nameof(ZekrCurrentText), typeof(string), typeof(ZekrView), string.Empty,
+        defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly BindableProperty ZekrCurrentCountProperty =
     BindableProperty.Create(nameof(ZekrCurrentCount), typeof(int), typeof(ZekrView), 0,
@@ -72,6 +76,12 @@ public partial class ZekrView : ContentView
         set => SetValue(ZekrCurrentCountProperty, value);
     }
 
+    public string ZekrCurrentText
+    {
+        get => (string)GetValue(ZekrCurrentTextProperty);
+        set => SetValue(ZekrCurrentTextProperty, value);
+    }
+
     public int ZekrID
     {
         get => (int)GetValue(ZekrIDProperty);
@@ -82,7 +92,7 @@ public partial class ZekrView : ContentView
     {
         InitializeComponent();
         // تأكد أن هذا السطر موجود في الـ XAML أو هنا برمجياً
-        ControlTemplate = (ControlTemplate)Resources["ZekrViewControlTemplate"]; 
+        ControlTemplate = (ControlTemplate)Resources["ZekrViewControlTemplate"];
     }
 
     // أضف هذا الجزء الهام جداً لإجبار البيانات على الظهور
@@ -99,6 +109,7 @@ public partial class ZekrView : ContentView
             ZekrTargetText = model.ZekrTargetText + $" ({model.ZekrTargetCount})";
             ZekrTargetCount = $"({model.ZekrTargetCount})";
             ZekrCurrentCount = model.ZekrCurrentCount;
+            ZekrCurrentText = ZekrCurrentCount + $" \\ ({model.ZekrTargetCount})";
         }
     }
 }

@@ -20,13 +20,17 @@ namespace Alkhulasat.App
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-
-                    // تسجيل خطوطك المخصصة لتطابق الستايلات
-                    fonts.AddFont("Your-Quran-Font.ttf", "QuranFont");
-                    fonts.AddFont("Your-Azkar-Font.ttf", "AzkarFont");
-                    fonts.AddFont("Your-Header-Font.ttf", "HeaderFont");
-                    fonts.AddFont("Your-UI-Font.ttf", "UIFont");
-                    fonts.AddFont("Your-Title-Font.ttf", "TitelFont");
+                    // إضافة خطك العربي هنا (اسم الملف، والاسم المستعار الذي ستستخدمه)
+                    // خط للعناوين والواجهة (خط ثقيل وجذاب)
+                    fonts.AddFont("Cairo-Bold.ttf", "TitelFont");
+                    // خط الازرار والقوائم (خط متوسط الوزن وسهل القراءة)
+                    fonts.AddFont("Cairo-SemiBold.ttf", "UIFont");
+                    // خط للآيات القرآنية (عثمان طه)
+                    fonts.AddFont("UthmanTN-Regular.ttf", "QuranFont");
+                    // خط للأذكار والأدعية (أميري)
+                    fonts.AddFont("Amiri-Regular.ttf", "AzkarFont");
+                    // خط التفسير والشرح (شهرزاد الجديدة)
+                    fonts.AddFont("ScheherazadeNew-Medium.ttf", "HeaderFont");
                 });
 
 #if DEBUG

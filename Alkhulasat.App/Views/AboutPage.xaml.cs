@@ -1,3 +1,5 @@
+using Alkhulasat.App.Services;
+
 namespace Alkhulasat.App.Views;
 
 public partial class AboutPage : ContentPage
@@ -6,7 +8,8 @@ public partial class AboutPage : ContentPage
     {
         InitializeComponent();
         // جلب رقم الإصدار تلقائياً كما فعلنا في WPF سابقاً
-        lblVersion.Text = $"إصدار التطبيق: {AppInfo.Current.VersionString}";
+        lblVersionApp.Text = $"إصدار التطبيق: {AppInfo.Current.VersionString}";
+        lblVersionDb.Text = $"إصدار قاعدة البيانات: {Preferences.Default.Get("AzkarVersionDb", "0.0")}";
     }
 
     private async void OnOpenPdfClicked(object? sender, EventArgs e)

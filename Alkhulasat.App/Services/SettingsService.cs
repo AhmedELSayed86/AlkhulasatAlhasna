@@ -9,7 +9,9 @@ namespace Alkhulasat.App.Services
         private const string HapticKey = "haptic_enabled";
         private const string ScreenOnKey = "screenon_enabled";
         private const string FemaleKey = "is_female";
-        private const string AzkarVersionKey = "AzkarVersion";
+        private const string AzkarVersionAppKey = "AzkarVersionApp";
+        private const string AzkarVersionDbKey = "AzkarVersionDb";
+        private const string SkipUpdateCheckKey = "SkipUpdateCheck";
 
         public double FontSize
         {
@@ -56,16 +58,36 @@ namespace Alkhulasat.App.Services
             Preferences.Default.Get($"LastOpen_{category}", string.Empty);
 
         // تنفيذ دالة جلب الإصدار
-        public string GetAzkarVersion()
+        public string GetAzkarVersionApp()
         {
             // القيمة الافتراضية "0.0" تعني أن التطبيق يفتح لأول مرة
-            return Preferences.Default.Get(AzkarVersionKey, "0.0");
+            return Preferences.Default.Get(AzkarVersionAppKey, "0.0");
         }
 
         // تنفيذ دالة حفظ الإصدار
-        public void SetAzkarVersion(string version)
+        public void SetAzkarVersionApp(string version)
         {
-            Preferences.Default.Set(AzkarVersionKey, version);
+            Preferences.Default.Set(AzkarVersionAppKey, version);
+        } 
+        public string GetAzkarVersionDb()
+        {
+            // القيمة الافتراضية "0.0" تعني أن التطبيق يفتح لأول مرة
+            return Preferences.Default.Get(AzkarVersionDbKey, "0.0");
+        }
+
+        public void SetAzkarVersionDb(string version)
+        {
+            Preferences.Default.Set(AzkarVersionDbKey, version);
+        } 
+        
+        public string GetSkipUpdateCheck()
+        { 
+            return Preferences.Default.Get(SkipUpdateCheckKey, "false");
+        }
+        
+        public void SetSkipUpdateCheck(string Check)
+        {
+            Preferences.Default.Set(SkipUpdateCheckKey, Check);
         } 
     }
 }
