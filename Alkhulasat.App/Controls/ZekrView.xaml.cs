@@ -33,6 +33,10 @@ public partial class ZekrView : ContentView
     BindableProperty.Create(nameof(ZekrCurrentText), typeof(string), typeof(ZekrView), string.Empty,
         defaultBindingMode: BindingMode.TwoWay);
 
+    public static readonly BindableProperty FullTargetTextProperty =
+    BindableProperty.Create(nameof(FullTargetText), typeof(string), typeof(ZekrView), string.Empty,
+        defaultBindingMode: BindingMode.TwoWay);
+
     public static readonly BindableProperty ZekrCurrentCountProperty =
     BindableProperty.Create(nameof(ZekrCurrentCount), typeof(int), typeof(ZekrView), 0,
         defaultBindingMode: BindingMode.TwoWay); // تأكد من إضافة TwoWay
@@ -82,6 +86,12 @@ public partial class ZekrView : ContentView
         set => SetValue(ZekrCurrentTextProperty, value);
     }
 
+    public string FullTargetText
+    {
+        get => (string)GetValue(FullTargetTextProperty);
+        set => SetValue(FullTargetTextProperty, value);
+    }
+
     public int ZekrID
     {
         get => (int)GetValue(ZekrIDProperty);
@@ -96,20 +106,26 @@ public partial class ZekrView : ContentView
     }
 
     // أضف هذا الجزء الهام جداً لإجبار البيانات على الظهور
-    protected override void OnBindingContextChanged()
-    {
-        base.OnBindingContextChanged();
+    //protected override void OnBindingContextChanged()
+    //{
+    //    base.OnBindingContextChanged();
 
-        if(BindingContext is Alkhulasat.Domain.Models.ZekrModel model)
-        {
-            ZekrID = model.ZekrID;
-            DisplayContent = model.DisplayContent;
-            ZekrDescription = model.ZekrDescription;
-            ZekrCategory = model.ZekrCategory;
-            ZekrTargetText = model.ZekrTargetText + $" ({model.ZekrTargetCount})";
-            ZekrTargetCount = $"({model.ZekrTargetCount})";
-            ZekrCurrentCount = model.ZekrCurrentCount;
-            ZekrCurrentText = ZekrCurrentCount + $" \\ ({model.ZekrTargetCount})";
-        }
-    }
+    //    if(BindingContext is Alkhulasat.Domain.Models.ZekrModel model)
+    //    {
+    //        ZekrID = model.ZekrID;
+    //        DisplayContent = model.DisplayContent;
+    //        ZekrDescription = model.ZekrDescription;
+    //        ZekrCategory = model.ZekrCategory;
+    //        ZekrCurrentCount = model.ZekrCurrentCount;
+    //        ZekrTargetCount = $"({model.ZekrTargetCount})";
+    //        if(string.IsNullOrWhiteSpace(model.ZekrTargetText))
+    //        {
+    //            ZekrTargetText = $"({model.ZekrTargetCount})";
+    //        }
+    //        else
+    //        {
+    //            ZekrTargetText = $"{model.ZekrTargetText} ({model.ZekrTargetCount})";
+    //        }
+    //    }
+    //}
 }

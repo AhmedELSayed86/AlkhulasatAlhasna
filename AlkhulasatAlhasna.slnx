@@ -1,6 +1,6 @@
 <Solution>
   <Project Path="Alkhulasat.App/Alkhulasat.App.csproj">
-    <Deploy Solution="Debug|*" />
+    <Deploy />
   </Project>
   <Project Path="Alkhulasat.BusinessLogic/Alkhulasat.BusinessLogic.csproj" />
   <Project Path="Alkhulasat.DataAccess/Alkhulasat.DataAccess.csproj" />

@@ -35,8 +35,8 @@
         <ApplicationId>com.Code_Development.mauiazkar</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>1.1.6</ApplicationDisplayVersion>
-        <ApplicationVersion>12</ApplicationVersion>
+        <ApplicationDisplayVersion>1.1.8</ApplicationDisplayVersion>
+        <ApplicationVersion>14</ApplicationVersion>
 
         <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
         <WindowsPackageType>None</WindowsPackageType>
@@ -50,7 +50,7 @@
 
         <!-- تفعيل المحاذاة لصفحات الذاكرة 16KB -->
         <AndroidInclude16KPageSizeAlignment>true</AndroidInclude16KPageSizeAlignment>
-
+        <SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
     </PropertyGroup>
 
     <!-- إعدادات مثالية لـ .NET 10 (Long-Term Support) -->
@@ -93,16 +93,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\AppIcon\appiconfg.svg" />
+        <None Remove="Resources\AppIcon\appiconfg.svg" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.50" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.5" />
+        <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.51" />
+        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.5" />
+
         <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2" />
-        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
-        <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.11" />
-        <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.11" />
     </ItemGroup>
 
     <ItemGroup>
@@ -140,18 +141,27 @@
         </MauiXaml>
     </ItemGroup>
 
+    <ItemGroup>
+        <!--<MauiAsset Include="Resources\Raw\AlkhulasatData.db3" />-->
+
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+    <!-- لتقليل حجم التطبيق وتوليد ملف إزالة التشويش -->
     <PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
         <AndroidSigningKeyStore>AZkarApp.keystore</AndroidSigningKeyStore>
         <AndroidSigningKeyAlias>AZkarApp</AndroidSigningKeyAlias>
         <AndroidSigningKeyPass>file:D:\repos\keystore\AndroidSigningPasswordAzkar.txt</AndroidSigningKeyPass>
         <AndroidSigningStorePass>file:D:\repos\keystore\AndroidSigningPasswordAzkar.txt</AndroidSigningStorePass>
 
-        <!-- لتقليل حجم التطبيق وتوليد ملف إزالة التشويش -->
         <AndroidLinkTool>r8</AndroidLinkTool>
-        <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
+        <AndroidManagedSymbols>true</AndroidManagedSymbols>
         <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-        <AndroidEnableProguard>true</AndroidEnableProguard>
-        <AndroidProguardConfig>proguard.cfg</AndroidProguardConfig>
 
+        <PublishTrimmed>true</PublishTrimmed>
+        <TrimMode>partial</TrimMode>
+
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
     </PropertyGroup>
 </Project>

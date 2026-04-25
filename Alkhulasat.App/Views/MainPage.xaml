@@ -59,12 +59,11 @@
                     <VerticalStackLayout
                         VerticalOptions="Center"
                         Spacing="5">
-                        <Label
-                            Text="🛡️"
-                            TextColor="#E0E0E0"
-                            FontSize="58"
-                            FontAttributes="Bold"
-                            HorizontalTextAlignment="Center" />
+                        <Image
+                            Source="wake_up.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
                         <Label
                             Text="أذكار الاستيقاظ"
                             TextColor="#E0E0E0"
@@ -94,12 +93,11 @@
                     <VerticalStackLayout
                         VerticalOptions="Center"
                         Spacing="5">
-                        <Label
-                            Text="🛡️"
-                            TextColor="#E0E0E0"
-                            FontSize="58"
-                            FontAttributes="Bold"
-                            HorizontalTextAlignment="Center" />
+                        <Image
+                            Source="sleeping.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
                         <Label
                             Text="أذكار النوم"
                             TextColor="#E0E0E0"
@@ -129,12 +127,11 @@
                     <VerticalStackLayout
                         VerticalOptions="Center"
                         Spacing="5">
-                        <Label
-                            Text="🛡️"
-                            TextColor="#E0E0E0"
-                            FontSize="58"
-                            FontAttributes="Bold"
-                            HorizontalTextAlignment="Center" />
+                        <Image
+                            Source="leaving_house.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
                         <Label
                             Text="أذكار الخروج من المنزل"
                             TextColor="#E0E0E0"
@@ -164,12 +161,11 @@
                     <VerticalStackLayout
                         VerticalOptions="Center"
                         Spacing="5">
-                        <Label
-                            Text="🛡️"
-                            TextColor="#E0E0E0"
-                            FontSize="58"
-                            FontAttributes="Bold"
-                            HorizontalTextAlignment="Center" />
+                        <Image
+                            Source="entering_house.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
                         <Label
                             Text="أذكار دخول المنزل"
                             TextColor="#E0E0E0"
@@ -294,12 +290,12 @@
                         VerticalOptions="Center"
                         Spacing="10">
                         <Image
-                            Source="prayer_beads_48px.png"
+                            Source="tasbih.png"
                             WidthRequest="70"
                             HeightRequest="70"
                             Aspect="AspectFit" />
                         <Label
-                            Text="الاستغفار"
+                            Text="استغفر واذكر ربك"
                             TextColor="#E0E0E0"
                             FontSize="20"
                             HorizontalTextAlignment="Center" />
@@ -322,12 +318,11 @@
                     <VerticalStackLayout
                         VerticalOptions="Center"
                         Spacing="5">
-                        <Label
-                            Text="🛡️"
-                            TextColor="#E0E0E0"
-                            FontSize="58"
-                            FontAttributes="Bold"
-                            HorizontalTextAlignment="Center" />
+                        <Image
+                            Source="children_protection.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
                         <Label
                             Text="ما يُعوذ به الأبناء"
                             TextColor="#E0E0E0"
@@ -357,12 +352,11 @@
                     <VerticalStackLayout
                         VerticalOptions="Center"
                         Spacing="5">
-                        <Label
-                            Text="🛡️"
-                            TextColor="#E0E0E0"
-                            FontSize="58"
-                            FontAttributes="Bold"
-                            HorizontalTextAlignment="Center" />
+                        <Image
+                            Source="travel.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
                         <Label
                             Text="دعاء السفر"
                             TextColor="#E0E0E0"
@@ -463,12 +457,11 @@
                     <VerticalStackLayout
                         VerticalOptions="Center"
                         Spacing="5">
-                        <Label
-                            Text="🛡️"
-                            TextColor="#E0E0E0"
-                            FontSize="58"
-                            FontAttributes="Bold"
-                            HorizontalTextAlignment="Center" />
+                        <Image
+                            Source="prophetic_istikhara.png"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Aspect="AspectFit" />
                         <Label
                             Text="دعاء الاستخارة"
                             TextColor="#E0E0E0"

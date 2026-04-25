@@ -1,5 +1,4 @@
-﻿using Alkhulasat.App.Views;
-using Alkhulasat.BusinessLogic.Messages;
+﻿using Alkhulasat.BusinessLogic.Messages;
 using Alkhulasat.BusinessLogic.Services;
 using Alkhulasat.Domain.Interfaces;
 using CommunityToolkit.Mvvm.Messaging;
@@ -17,7 +16,7 @@ namespace Alkhulasat.App
 
             _settingsService = settingsService;
             _updateService = updateService; // 3. تعيين الخدمة
-                              
+
             // 1. تطبيق الأحجام المحفوظة عند التشغيل الأول
             UpdateAllFontSizes(_settingsService.FontSize);
 
@@ -46,7 +45,7 @@ namespace Alkhulasat.App
             });
             // لا تنشئ MainPage هنا يدوياً بـ new MainPage()
             // بل اترك الـ Shell هو من يقوم بذلك
-            MainPage = new AppShell();
+            //MainPage = new AppShell();
         }
 
         public void UpdateAllFontSizes(double baseSize)
@@ -59,17 +58,50 @@ namespace Alkhulasat.App
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            // استدعاء البناء الافتراضي للنافذة
-            Window window = base.CreateWindow(activationState);
+            // إنشاء النافذة مع صفحة السلاش كبداية
+            var window = new Window(new Alkhulasat.App.Views.SplashPage());
 
-            // تطبيق إعدادات الشاشة بأمان *بعد* إنشاء النافذة لتجنب JavaProxyThrowable
             window.Created += (s, e) =>
             {
-                Microsoft.Maui.Devices.DeviceDisplay.Current.KeepScreenOn = _settingsService.IsKeepScreenOn;
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    try
+                    {
+                        // ضبط إعدادات الشاشة بعد التأكد من وجود النافذة
+                        Microsoft.Maui.Devices.DeviceDisplay.Current.KeepScreenOn = _settingsService.IsKeepScreenOn;
+                    }
+                    catch { /* تجاهل الخطأ هنا لضمان استمرار التشغيل */ }
+                });
             };
 
             return window;
         }
+
+        //protected override Window CreateWindow(IActivationState? activationState)
+        //{
+        //    // 1. ننشئ النافذة باستخدام شاشة البداية أولاً
+        //    var window = new Window(new Alkhulasat.App.Views.SplashPage());
+
+        //    // 2. نؤجل استدعاء إعدادات الشاشة (KeepScreenOn) حتى تكتمل النافذة
+        //    // استدعاؤها قبل اكتمال النافذة في الـ Release يسبب انهياراً مباشراً
+        //    // 2. تأجيل تنفيذ أوامر الشاشة لحين اكتمال تحميل النافذة فعلياً لتجنب خطأ JavaProxy
+        //    window.Created += (s, e) =>
+        //    {
+        //        MainThread.BeginInvokeOnMainThread(() =>
+        //        {
+        //            try
+        //            {
+        //                Microsoft.Maui.Devices.DeviceDisplay.Current.KeepScreenOn = _settingsService.IsKeepScreenOn;
+        //            }
+        //            catch(Exception ex)
+        //            {
+        //                System.Diagnostics.Debug.WriteLine($"Error setting KeepScreenOn: {ex.Message}");
+        //            }
+        //        });
+        //    };
+
+        //    return window;
+        //}
         //protected override Window CreateWindow(IActivationState? activationState)
         //{
         //    // تنفيذ الإعدادات هنا يضمن أن الـ Window متاح ولا يحدث خطأ JavaProxy

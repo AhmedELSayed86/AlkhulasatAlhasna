@@ -1,14 +1,11 @@
-using Alkhulasat.App.Services;
-using Alkhulasat.BusinessLogic.Messages;
 using Alkhulasat.BusinessLogic.ViewModels;
-using Alkhulasat.DataAccess.Repositories;
 using Alkhulasat.Domain.Interfaces;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace Alkhulasat.App.Views;
 
 public partial class SettingsPage : ContentPage
 {
+    private readonly SettingsViewModel _viewModel;
     public SettingsPage()
     {
         InitializeComponent();
@@ -24,9 +21,13 @@ public partial class SettingsPage : ContentPage
             throw new InvalidOperationException("ISettingsService is not registered in DI container.");
 
         // إنشاء ViewModel مع حقن الخدمة
-        BindingContext = new SettingsViewModel(settingsService);
+        _viewModel = new SettingsViewModel(settingsService);
+        BindingContext = _viewModel;
+    }
 
-        // عرض إصدار التطبيق
-        lblVersion.Text = $"إصدار التطبيق: {AppInfo.Current.VersionString}";
-    } 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.LoadSettings();
+    }
 }

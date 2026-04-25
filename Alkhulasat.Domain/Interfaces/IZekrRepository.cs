@@ -4,7 +4,7 @@ namespace Alkhulasat.Domain.Interfaces
 {
     public interface IZekrRepository
     {
-        Task InitializeRepositoryAsync(); // أضف هذا السطر
+        Task InitializeRepositoryAsync();  
         Task SyncAzkarSmartlyAsync(List<ZekrModel> azkar);
         Task<List<ZekrModel>> GetAzkarByCategory(string category, bool isFemale);
         Task UpdateZekr(ZekrModel zekr);

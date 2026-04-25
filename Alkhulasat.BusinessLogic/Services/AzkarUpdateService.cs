@@ -1,8 +1,10 @@
-﻿using Alkhulasat.Domain.Interfaces;
+﻿using Alkhulasat.BusinessLogic.Messages;
+using Alkhulasat.Domain.Interfaces;
 using Alkhulasat.Domain.Models;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Diagnostics;
-using System.Text.Json;
 using System.Runtime.Serialization.Json;
+using System.Text.Json;
 
 namespace Alkhulasat.BusinessLogic.Services
 {
@@ -13,7 +15,7 @@ namespace Alkhulasat.BusinessLogic.Services
         private readonly IAssetService _assets;
         private readonly IZekrRepository _repository;
 
-        private const string VersionAppUrl = "https://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/versionApp.txthttps://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/versionApp.txt";
+        private const string VersionAppUrl = "https://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/versionApp.txt";
         private const string VersionDbUrl = "https://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/versionDb.txt";
         private const string JsonUrl = "https://gist.githubusercontent.com/AhmedELSayed86/f98e8b9a3ac0c68916cbc72e9a5dad9c/raw/azkar.json";
 
@@ -35,8 +37,7 @@ namespace Alkhulasat.BusinessLogic.Services
             if(localVersion == "0.0")
             {
                 await LoadInitialDataFromAssets().ConfigureAwait(false);
-                // ونترك التحقق من الإنترنت للتشغيلات اللاحقة
-                return;
+               // localVersion = _settings.GetAzkarVersionDb() ?? "0.0";
             }
 
             try
@@ -56,13 +57,27 @@ namespace Alkhulasat.BusinessLogic.Services
                     {
                         await _repository.SyncAzkarSmartlyAsync(newAzkar).ConfigureAwait(false);
                         _settings.SetAzkarVersionDb(cloudVersion);
+                        // [إضافة سينيور]: إرسال رسالة لتحديث الواجهة فوراً
+                        MainThread.BeginInvokeOnMainThread(() =>
+                        {
+                            WeakReferenceMessenger.Default.Send(new SettingsChangedMessage("DbVersionUpdated"));
+                        });
                     }
                 }
             }
             catch(Exception ex)
             {
                 // هذا السطر سيخبرك بالخطأ الحقيقي (ملف مفقود، أو جيسون غير صحيح)
-                System.Diagnostics.Debug.WriteLine($"CRITICAL ERROR: {ex.Message}");
+                //System.Diagnostics.Debug.WriteLine($"CRITICAL ERROR: {ex.Message}");
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    if(Application.Current?.Windows.Count > 0)
+                    {
+                        var currentWindow = Application.Current.Windows[0];
+                        if(currentWindow.Page != null)
+                            await currentWindow.Page.DisplayAlertAsync("خطأ مزامنة - Release", ex.Message, "حسناً");
+                    }
+                });
             }
         }
 
@@ -93,8 +108,7 @@ namespace Alkhulasat.BusinessLogic.Services
             try
             {
                 var json = await _assets.ReadRawFileAsync("azkar.json");
-                Debug.WriteLine($"JSON file length: {json.Length}");
-                var version = await _assets.ReadRawFileAsync("versionDb.txt");
+               // var version = await _assets.ReadRawFileAsync("versionDb.txt");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var initialAzkar = JsonSerializer.Deserialize<List<ZekrModel>>(json, options);
@@ -102,12 +116,26 @@ namespace Alkhulasat.BusinessLogic.Services
                 if(initialAzkar != null)
                 {
                     await _repository.SyncAzkarSmartlyAsync(initialAzkar);
-                    _settings.SetAzkarVersionDb(version.Trim());
                 }
+              //  _settings.SetAzkarVersionDb(version.Trim());
+                // [إضافة سينيور]: إرسال رسالة لتحديث الواجهة فوراً
+                //MainThread.BeginInvokeOnMainThread(() =>
+                //{
+                //    WeakReferenceMessenger.Default.Send(new SettingsChangedMessage("DbVersionUpdated"));
+                //});
             }
             catch(Exception ex)
             {
-                Debug.WriteLine($"Error reading asset: {ex.Message}");
+                //Debug.WriteLine($"Error reading asset: {ex.Message}");
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    if(Application.Current?.Windows.Count > 0)
+                    {
+                        var currentWindow = Application.Current.Windows[0];
+                        if(currentWindow.Page != null)
+                            await currentWindow.Page.DisplayAlertAsync("خطأ مزامنة - Release", ex.Message, "حسناً");
+                    }
+                });
             }
         }
     }

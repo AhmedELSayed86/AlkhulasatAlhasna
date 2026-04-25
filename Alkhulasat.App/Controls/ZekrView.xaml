@@ -65,7 +65,7 @@
                         <Label
                             Grid.Column="0"
                             Grid.Row="1"
-                            Text="{TemplateBinding ZekrTargetText }"
+                            Text="{TemplateBinding FullTargetText }"
                             Style="{StaticResource AzkarText}"
                             HorizontalOptions="Center"
                             TextColor="#2ECC71"

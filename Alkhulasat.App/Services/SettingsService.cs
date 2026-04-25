@@ -39,7 +39,8 @@ namespace Alkhulasat.App.Services
                 Preferences.Default.Set(ScreenOnKey, value);
 
                 // 2. التطبيق الفوري على النظام (للحظة الحالية)
-                MainThread.BeginInvokeOnMainThread(() => {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
                     Microsoft.Maui.Devices.DeviceDisplay.Current.KeepScreenOn = value;
                 });
             }
@@ -67,8 +68,8 @@ namespace Alkhulasat.App.Services
         // تنفيذ دالة حفظ الإصدار
         public void SetAzkarVersionApp(string version)
         {
-            Preferences.Default.Set(AzkarVersionAppKey, version);
-        } 
+            Preferences.Default.Set(AzkarVersionAppKey, version ?? "0.0");
+        }
         public string GetAzkarVersionDb()
         {
             // القيمة الافتراضية "0.0" تعني أن التطبيق يفتح لأول مرة
@@ -77,17 +78,17 @@ namespace Alkhulasat.App.Services
 
         public void SetAzkarVersionDb(string version)
         {
-            Preferences.Default.Set(AzkarVersionDbKey, version);
-        } 
-        
+            Preferences.Default.Set(AzkarVersionDbKey, version ?? "0.0");
+        }
+
         public string GetSkipUpdateCheck()
-        { 
+        {
             return Preferences.Default.Get(SkipUpdateCheckKey, "false");
         }
-        
+
         public void SetSkipUpdateCheck(string Check)
         {
             Preferences.Default.Set(SkipUpdateCheckKey, Check);
-        } 
+        }
     }
 }

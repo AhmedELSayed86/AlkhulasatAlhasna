@@ -127,12 +127,22 @@
                     Margin="0,20" />
             </VerticalStackLayout>
             <!-- إصدار التطبيق (للتوثيق) -->
-            <Label
-                x:Name="lblVersion"
-                Text="إصدار التطبيق 1.0.0"
-                HorizontalOptions="Center"
-                TextColor="#444"
-                Margin="0,20" />
+            <VerticalStackLayout
+                Spacing="5"
+                Margin="0, 30, 0, 50"
+                HorizontalOptions="Center">
+                <Label
+                    Text="{Binding AppVersionText}"
+                    HorizontalOptions="Center"
+                    TextColor="#444"
+                    Margin="0,20" />
+                <!-- إصدار قاعدة البيانات (للتوثيق) -->
+                <Label
+                    Text="{Binding DbVersionText}"
+                    HorizontalOptions="Center"
+                    TextColor="#444"
+                    Margin="0,20" />
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

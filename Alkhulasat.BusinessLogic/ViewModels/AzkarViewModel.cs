@@ -19,10 +19,10 @@ namespace Alkhulasat.BusinessLogic.ViewModels
         private ObservableCollection<ZekrModel> azkarList = [];
 
         [ObservableProperty]
-        private string pageTitle;
+        private string? pageTitle;
 
         [ObservableProperty]
-        string currentCategory; // لتخزين الفئة الحالية (Morning, Evening, etc.)
+        private string? currentCategory; // لتخزين الفئة الحالية (Morning, Evening, etc.)
 
         [ObservableProperty]
         bool isBusy; // تولد تلقائياً IsBusy
@@ -70,12 +70,10 @@ namespace Alkhulasat.BusinessLogic.ViewModels
 
             try
             {
-                // جلب الإعدادات مرة واحدة خارج الحلقة التكرارية للسرعة
                 bool isFemale = _settings.IsFemaleVersion;
                 string today = DateTime.Now.ToString("yyyy-MM-dd");
                 string lastOpen = _settings.GetLastOpenDate(category);
 
-                // تصفير العدادات إذا تغير اليوم
                 if(today != lastOpen)
                 {
                     await _repository.ResetDailyCountersAsync();
@@ -84,21 +82,44 @@ namespace Alkhulasat.BusinessLogic.ViewModels
 
                 var data = await _repository.GetAzkarByCategory(category, isFemale);
 
-                if(data != null && data.Any())
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    AzkarList = new ObservableCollection<ZekrModel>(data);
-                }
+                    AzkarList.Clear();
+                    if(data != null && data.Count > 0)
+                    {
+                        foreach(var item in data)
+                        {
+                            AzkarList.Add(item);
+                        }
+                    }
+                });
             }
             catch(Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"LoadAzkarAsyncError: {ex.ToString()}");
+
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    // [Clean Code / .NET 10]: استخدام معمارية النوافذ المتعددة بدلاً من MainPage
+                    if(Application.Current?.Windows.Count > 0)
+                    {
+                        var currentWindow = Application.Current.Windows[0];
+                        if(currentWindow.Page != null)
+                        {
+                            // استخدام الميثود الجديدة DisplayAlertAsync المتوافقة مع .NET 10
+                            await currentWindow.Page.DisplayAlertAsync(
+                                "خطأ برمجي",
+                                $"لم نتمكن من جلب الأذكار. التفاصيل: {ex.Message}",
+                                "حسناً");
+                        }
+                    }
+                });
             }
             finally
             {
                 IsBusy = false;
             }
         }
-
 
         [RelayCommand]
         public async Task IncrementCount(ZekrModel zekr)
@@ -111,7 +132,7 @@ namespace Alkhulasat.BusinessLogic.ViewModels
                 if(zekr.ZekrCurrentCount >= zekr.ZekrTargetCount)
                 {
                     // 1. تفعيل الحالة في الموديل (ليعمل الـ DataTrigger الخاص بك فوراً)
-                    ///zekr.IsCompleted = true;
+                    //zekr.IsCompleted = true;
 
                     var index = AzkarList.IndexOf(zekr);
                     if(index < AzkarList.Count - 1)
@@ -140,10 +161,13 @@ namespace Alkhulasat.BusinessLogic.ViewModels
         public async Task ResetCurrentCategoryAsync()
         {
             // CurrentCategory هو المتغير الذي يحمل (Morning, Evening, etc.)
-            await _repository.ResetAzkarCountByCategoryAsync(CurrentCategory);
+            if(CurrentCategory != null)
+            {
+                await _repository.ResetAzkarCountByCategoryAsync(CurrentCategory);
 
-            // إعادة تحميل القائمة لتحديث الشاشة فوراً
-            await LoadAzkarAsync(CurrentCategory);
+                // إعادة تحميل القائمة لتحديث الشاشة فوراً
+                await LoadAzkarAsync(CurrentCategory);
+            }
         }
     }
 }

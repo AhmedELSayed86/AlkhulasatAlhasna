@@ -41,38 +41,57 @@ namespace Alkhulasat.DataAccess.Repositories
 
         public async Task SyncAzkarSmartlyAsync(List<ZekrModel> newAzkar)
         {
-            var db = _context.Database;
+            var connection = _context.Database;
+            if(connection == null) return;
 
-            // جلب كل الأذكار المخزنة حالياً في الجهاز
-            var existingAzkar = await db!.Table<ZekrModel>().ToListAsync();
+            // 1. جلب البيانات الحالية للمقارنة
+            var existingAzkar = new List<int>();
+            using(var checkCmd = connection.CreateCommand())
+            {
+                checkCmd.CommandText = "SELECT OrderIndex FROM ZekrModel";
+                using var reader = await checkCmd.ExecuteReaderAsync();
+                while(reader.Read()) existingAzkar.Add(reader.GetInt32(0));
+            }
 
-            await db.RunInTransactionAsync(conn =>
+            // 2. بدء عملية (Transaction) يدوية
+            using var transaction = connection.BeginTransaction();
+            try
             {
                 foreach(var cloudZekr in newAzkar)
                 {
-                    // البحث عن الذكر في الجهاز بناءً على رقم الترتيب الثابت (OrderIndex)
-                    var localZekr = existingAzkar.FirstOrDefault(x => x.OrderIndex == cloudZekr.OrderIndex);
+                    using var command = connection.CreateCommand();
+                    command.Transaction = transaction;
 
-                    if(localZekr != null)
+                    if(existingAzkar.Contains(cloudZekr.OrderIndex))
                     {
-                        // الذكر موجود؛ نحدّث النصوص (حتى لو صححت خطأ لغوي سيتم تحديثه)
-                        localZekr.ZekrMale = cloudZekr.ZekrMale;
-                        localZekr.ZekrFemale = cloudZekr.ZekrFemale;
-                        localZekr.ZekrCategory = cloudZekr.ZekrCategory;
-                        localZekr.ZekrTargetCount = cloudZekr.ZekrTargetCount;
-                        localZekr.ZekrDescription = cloudZekr.ZekrDescription;
-                        localZekr.ZekrTargetText = cloudZekr.ZekrTargetText;
-
-                        // لاحظ: لم نلمس localZekr.ZekrCurrentCount ليبقى عداد المستخدم كما هو
-                        conn.Update(localZekr);
+                        command.CommandText = @"UPDATE ZekrModel SET 
+                                ZekrMale = @male, ZekrFemale = @female, ZekrTargetCount = @tCount,
+                                ZekrCategory = @cat, ZekrDescription = @desc, ZekrTargetText = @tText
+                                WHERE OrderIndex = @idx";
                     }
                     else
                     {
-                        // ذكر جديد بـ OrderIndex جديد؛ نقوم بإضافته
-                        conn.Insert(cloudZekr);
+                        command.CommandText = @"INSERT INTO ZekrModel 
+                                (ZekrMale, ZekrFemale, ZekrCategory, OrderIndex, ZekrTargetCount, ZekrCurrentCount, ZekrDescription, ZekrTargetText) 
+                                VALUES (@male, @female, @cat, @idx, @tCount, 0, @desc, @tText)";
                     }
+
+                    command.Parameters.AddWithValue("@male", (object?)cloudZekr.ZekrMale ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@female", (object?)cloudZekr.ZekrFemale ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@idx", cloudZekr.OrderIndex);
+                    command.Parameters.AddWithValue("@cat", (object?)cloudZekr.ZekrCategory ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@tCount", cloudZekr.ZekrTargetCount);
+                    command.Parameters.AddWithValue("@desc", (object?)cloudZekr.ZekrDescription ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@tText", (object?)cloudZekr.ZekrTargetText ?? DBNull.Value);
+                    await command.ExecuteNonQueryAsync();
                 }
-            });
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
     }
 }
