@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 *.env
+*.aab
 # OS-specific files (e.g., if a teammate clones it on macOS)
 .DS_Store
 
@@ -31,6 +32,12 @@ mono_crash.*
 [Rr]eleases/x64/
 bin/x64/
 obj/x64/
+
+bin
+obj
+
+bin/
+obj/
 
 [Dd]ebug/x86/
 [Dd]ebugPublic/x86/
